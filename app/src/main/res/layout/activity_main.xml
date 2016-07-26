@@ -47,7 +47,7 @@
         android:paddingBottom="12dp"
         android:drawableStart="@android:drawable/ic_menu_mylocation"
         android:drawableLeft="@android:drawable/ic_menu_mylocation"
-        android:background="@drawable/button_camera"
+        android:background="@drawable/button_green"
         style="@style/button_text"
         android:text="@string/button_camera"/>
 

@@ -35,4 +35,28 @@ public class Citizen {
     public String getPremiumUntil() {
         return premiumUntil;
     }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setFacebookId(String facebookId) {
+        this.facebookId = facebookId;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setSessionToken(String sessionToken) {
+        this.sessionToken = sessionToken;
+    }
+
+    public void setPremiumUntil(String premiumUntil) {
+        this.premiumUntil = premiumUntil;
+    }
 }

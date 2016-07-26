@@ -1,12 +1,25 @@
 <resources>
     <string name="app_name">Tesis</string>
     <string name="facebook_app_id">744833395659337</string>
+    <!-- GENERAL LABELS -->
+    <string name="label_yes">Yes</string>
+    <string name="label_no">No</string>
+    <string name="button_save">Save Changes</string>
+    <!-- MAIN ACTIVITY LABELS -->
     <string name="default_user_fullname">Anonimous</string>
-    <string name="default_email">No email registered</string>
-    <string name="label_user_fullname">Fullname</string>
-    <string name="label_email">E-mail</string>
     <string name="button_map">Show Map</string>
     <string name="button_camera">Activate Camera</string>
     <string name="button_my_account">My Account</string>
     <string name="button_logout">Log Out</string>
+    <!-- MY ACCOUNT LABELS -->
+    <string name="label_user_fullname">Fullname</string>
+    <string name="label_email">E-mail</string>
+    <string name="label_post_as_anonymous">Post as anonymous</string>
+    <string name="default_email">No email registered</string>
+    <string name="switch_text_on">Post as anonymous</string>
+    <string name="switch_text_off">Post as myself</string>
+    <!-- MESSAGES -->
+    <string name="service_connection_error">There was an error while connecting to the servers, some features may not be available.</string>
+    <string name="facebook_login_cancelled">Login cancelled.</string>
+    <string name="facebook_login_exception">There was an error while connecting to Facebook.</string>
 </resources>
