@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private Profile profile;
     private TextView userFullname;
     private ProfilePictureView profilePicture;
+    private Button buttonMaps;
     private Button buttonCamera;
     private Button buttonMyAccount;
     private Button buttonLogout;
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d("TOKEN2", AccessToken.getCurrentAccessToken().getToken());
         // Set profile data from login
         setProfileData();
+        // Set maps button
+        setMapsButton();
         // Set camera button
         setCameraButton();
         // Set my account button
@@ -52,6 +55,17 @@ public class MainActivity extends AppCompatActivity {
         profilePicture.setProfileId(profile.getId());
         //userFullname.setText(profile.getFirstName() + " " + profile.getLastName());
         userFullname.setText(profile.getName());
+    }
+
+    public void setMapsButton(){
+        buttonMaps = (Button)findViewById(R.id.button_map);
+        buttonMaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent maps = new Intent(MainActivity.this, MapsActivity.class);
+                startActivity(maps);
+            }
+        });
     }
 
     public void setCameraButton(){

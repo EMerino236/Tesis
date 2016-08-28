@@ -22,16 +22,16 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
     // Android SDK
-    compile 'com.facebook.android:facebook-android-sdk:4.11.0'
     // Account Kit
-    compile 'com.facebook.android:account-kit-sdk:4.+'
     compile files('src/main/java/com/app/tesis/eduardo/tesis/libs/beyondar-googlemap-plugin-v0.9.0.jar')
     compile files('src/main/java/com/app/tesis/eduardo/tesis/libs/beyondar-radar-plugin-v0.9.1.jar')
     compile files('src/main/java/com/app/tesis/eduardo/tesis/libs/beyondar-v0.9.3.jar')
-    compile 'com.google.android.gms:play-services:9.2.1'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:design:23.4.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.11.0'
+    compile 'com.facebook.android:account-kit-sdk:4.+'
+    compile 'com.google.android.gms:play-services:9.4.0'
     compile 'com.google.android.gms:play-services-location:9.2.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
 }

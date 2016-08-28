@@ -1,12 +1,15 @@
 package com.app.tesis.eduardo.tesis;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -92,25 +95,26 @@ public class PointActivity extends AppCompatActivity {
                 for(int i=0;i<length;i++){
                     LinearLayout historicalEventContainer = new LinearLayout(getApplicationContext());
                     historicalEventContainer.setOrientation(LinearLayout.HORIZONTAL);
-
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+                    layoutParams.setMargins(0,0,0,20);
+                    historicalEventContainer.setLayoutParams(layoutParams);
                     LinearLayout dateContainer = new LinearLayout(getApplicationContext());
                     dateContainer.setOrientation(LinearLayout.VERTICAL);
 
                     TextView date = new TextView(getApplicationContext());
                     String dateBuilder = "";
-                    if(historicalEvents.getJSONObject(i).getString("day").length() > 0){
+                    if(historicalEvents.getJSONObject(i).getString("day").compareTo("null")!= 0){
                         dateBuilder += historicalEvents.getJSONObject(i).getString("day")+"/";
                     }
-                    if(historicalEvents.getJSONObject(i).getString("month").length() > 0){
+                    if(historicalEvents.getJSONObject(i).getString("month").compareTo("null")!= 0){
                         dateBuilder += historicalEvents.getJSONObject(i).getString("month")+"/";
                     }
-                    if(historicalEvents.getJSONObject(i).getString("year").length() > 0){
+                    if(historicalEvents.getJSONObject(i).getString("year").compareTo("null")!= 0){
                         dateBuilder += historicalEvents.getJSONObject(i).getString("year");
                     }
                     date.setText(dateBuilder);
                     TextView period = new TextView(getApplicationContext());
                     period.setText(historicalEvents.getJSONObject(i).getString("period"));
-                    period.setGravity(Gravity.CENTER_HORIZONTAL);
                     dateContainer.addView(date);
                     dateContainer.addView(period);
 
@@ -119,8 +123,23 @@ public class PointActivity extends AppCompatActivity {
                     TextView title = new TextView(getApplicationContext());
                     title.setText(historicalEvents.getJSONObject(i).getString("title"));
                     title.setTextSize(16);
-                    title.setGravity(Gravity.CENTER);
                     historicalEventContainer.addView(title);
+                    historicalEventContainer.setPadding(20,0,20,0);
+                    final int finalI = i;
+                    historicalEventContainer.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent historical_event = new Intent(PointActivity.this, HistoricalEventActivity.class);
+                            try {
+                                historical_event.putExtra("historicalEventId",historicalEvents.getJSONObject(finalI).getString("id"));
+                                startActivity(historical_event);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Toast.makeText(PointActivity.this,R.string.service_connection_error,Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
                     historicalEventsContainer.addView(historicalEventContainer);
                 }
             } catch (JSONException e) {

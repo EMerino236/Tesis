@@ -1,40 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="facebook_app_id">744833395659337</string>
     <!-- TITLES -->
     <string name="app_name">Tesis</string>
-    <string name="login_title">Login</string>
+    <string name="login_title">Inicio de Sesion</string>
     <string name="main_title">Menu</string>
-    <string name="my_account_title">My Account</string>
-    <string name="camera_title">Explorer</string>
-    <string name="point_title">Point</string>
-    <string name="historical_event_title">Historical Event</string>
-    <string name="tc_title">Terms and Conditions</string>
-    <string name="pp_title">Privacy Policies</string>
+    <string name="my_account_title">Mi Cuenta</string>
+    <string name="camera_title">Explorador</string>
+    <string name="point_title">Punto de Interes</string>
+    <string name="historical_event_title">Evento Historico</string>
+    <string name="tc_title">Terminos y condiciones</string>
+    <string name="pp_title">Politicas de privacidad</string>
     <!-- GENERAL LABELS -->
-    <string name="label_yes">Yes</string>
+    <string name="label_yes">Si</string>
     <string name="label_no">No</string>
-    <string name="button_save">Save Changes</string>
-    <string name="current_position">Current position</string>
+    <string name="button_save">Guardar Cambios</string>
+    <string name="current_position">Aqui estoy</string>
     <!-- MAIN ACTIVITY LABELS -->
-    <string name="default_user_fullname">Anonimous</string>
-    <string name="button_map">Show Map</string>
-    <string name="button_camera">Activate Camera</string>
-    <string name="button_my_account">My Account</string>
-    <string name="button_logout">Log Out</string>
+    <string name="default_user_fullname">Anonimo</string>
+    <string name="button_map">Mostrar Mapa</string>
+    <string name="button_camera">Activar Camara</string>
+    <string name="button_my_account">Mi cuenta</string>
+    <string name="button_logout">Cerrar Sesion</string>
     <!-- MY ACCOUNT LABELS -->
-    <string name="label_user_fullname">Fullname</string>
+    <string name="label_user_fullname">Nombre Completo</string>
     <string name="label_email">E-mail</string>
-    <string name="label_post_as_anonymous">Post as anonymous</string>
-    <string name="default_email">No email registered</string>
-    <string name="switch_text_on">Post as anonymous</string>
-    <string name="switch_text_off">Post as myself</string>
+    <string name="label_post_as_anonymous">Publicar como anonimo</string>
+    <string name="default_email">No existe el e-mail</string>
+    <string name="switch_text_on">Publicar como anonimo</string>
+    <string name="switch_text_off">Publicar con mi nombre</string>
     <!-- MESSAGES -->
-    <string name="service_connection_error">There was an error while connecting to the servers, some features may not be available.</string>
-    <string name="facebook_login_cancelled">Login cancelled.</string>
-    <string name="facebook_login_exception">There was an error while connecting to Facebook.</string>
+    <string name="service_connection_error">No se pudo conectar con el servidor, algunas funcionalidades pueden no estar disponibles.</string>
+    <string name="facebook_login_cancelled">Inicio de sesion cancelado.</string>
+    <string name="facebook_login_exception">No se pudo conectar con Facebook.</string>
     <!-- TERMS AND CONDITIONS -->
     <string name="tc_p0">A continuación se describen los términos y condiciones, los cuales regularán el acceso y uso de la aplicación móvil.</string>
-    <string name="tc_h1">Normas generales de uso de la aplicación móvil</string>
+    <string name="tc_h1"><u>Normas generales de uso de la aplicación móvil</u></string>
     <string name="tc_p1">El usuario está obligado a usar la aplicación móvil de forma responsable y correcta, con un fin netamente educativo. Así mismo, estará en la capacidad de hacerse responsable por las posibles consecuencias que conlleve cualquier aporte que realice mediante la aplicación.
 Finalmente, el usuario tendrá la posibilidad de darse de baja de la aplicación móvil en cualquier momento, así como reactivar su usuario en caso crea conveniente.
 </string>
@@ -108,5 +109,4 @@ Finalmente, de darse el caso en que la cuenta del autor se inhabilite, sus obras
     <string name="pp_p12">Todo usuario de la aplicación móvil que desee aportar una obra, deberá hacerlo solo si ésta fue creada por sí mismo o por terceros, previa autorización. Así mismo, éstos tienen la obligación de hacerse cargo de toda responsabilidad que trae consigo ser autor de dicha obra.</string>
     <string name="pp_h13">Responsabilidades de los usuarios</string>
     <string name="pp_p13">La aplicación móvil funcionará como medio para hacer pública las obras que los autores crean convenientes. Ningún usuario está obligado a realizar ningún aporte, éstos se realizarán de forma voluntaria. Es por lo antes mencionado, que de producirse una infracción sobre la Ley de derecho de autor u otra norma aplicable, el usuario que la ocasionó se hará responsable sin involucrar a los titulares de la aplicación móvil.</string>
-    <string name="title_activity_maps">Map</string>
 </resources>
