@@ -13,15 +13,6 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/term_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:textSize="14pt"
-                android:layout_marginBottom="10dp"
-                android:text="@string/tc_title"/>
-
-            <TextView
                 android:id="@+id/tc_p0"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,6 +52,62 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/tc_p2"/>
+
+            <TextView
+                android:id="@+id/tc_p2_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/tc_p2_1"/>
+
+            <TextView
+                android:id="@+id/tc_p2_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/tc_p2_2"/>
+
+            <TextView
+                android:id="@+id/tc_p2_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/tc_p2_3"/>
+
+            <TextView
+                android:id="@+id/tc_p2_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/tc_p2_4"/>
+
+            <TextView
+                android:id="@+id/tc_p2_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/tc_p2_5"/>
+
+            <TextView
+                android:id="@+id/tc_p2_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/tc_p2_6"/>
+
+            <TextView
+                android:id="@+id/tc_p2_7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/tc_p2_7"/>
+
+            <TextView
+                android:id="@+id/tc_p2_8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/tc_p2_8"/>
 
             <TextView
                 android:id="@+id/tc_h3"

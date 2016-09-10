@@ -65,6 +65,12 @@
             android:name=".HistoricalEventActivity"
             android:label="@string/historical_event_title"></activity>
         <activity
+            android:name=".RegisterActivity"
+            android:label="@string/register_title"></activity>
+        <activity
+            android:name=".RecoverPassActivity"
+            android:label="@string/recover_pass_title"></activity>
+        <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"

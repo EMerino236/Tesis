@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Camera;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
     double latitude;
     double longitude;
     World world;
+    ProgressDialog mProgressDialog;
     /* Google services */
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     private Location mLastLocation;
@@ -74,6 +76,9 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
         longitudeField = (TextView) findViewById(R.id.TextView02);
 
         m_ServiceAccess = new AccessServiceAPI();
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage("Obteniendo ubicaciones geograficas...");
+        mProgressDialog.setTitle("Procesando");
         /*---*/
         // First we need to check availability of play services
         if (checkPlayServices()) {
@@ -285,16 +290,22 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
         Double latitudeLowerBound = latitude - 0.001;
         Double longitudeUpperBound = longitude + 0.001;
         Double longitudeLowerBound = longitude - 0.001;
-        new TaskGetNearestPoints().execute(String.valueOf(latitudeUpperBound),String.valueOf(latitudeLowerBound),String.valueOf(longitudeUpperBound),String.valueOf(longitudeLowerBound));
+        new TaskGetNearestPoints(mProgressDialog,this).execute(String.valueOf(latitudeUpperBound),String.valueOf(latitudeLowerBound),String.valueOf(longitudeUpperBound),String.valueOf(longitudeLowerBound));
     }
 
 
     public class TaskGetNearestPoints extends AsyncTask<String, Void, Integer> {
         JSONObject jObjResult;
-        private ProgressDialog mProgressDialog;
+        ProgressDialog progressDialog;
+        CameraActivity activity;
+        public TaskGetNearestPoints(ProgressDialog mProgressDialog, CameraActivity act){
+            this.progressDialog = mProgressDialog;
+            this.activity = act;
+        }
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog.show();
         }
 
         @Override
@@ -333,6 +344,7 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
+            progressDialog.dismiss();
             if(result == Constants.ENDPOINT_ERROR){
                 Toast.makeText(getApplicationContext(), R.string.service_connection_error, Toast.LENGTH_SHORT).show();
             }

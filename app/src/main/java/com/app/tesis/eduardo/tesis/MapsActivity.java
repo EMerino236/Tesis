@@ -43,6 +43,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LatLng latLng;
     Marker currLocationMarker;
     private GoogleMap mMap;
+    ProgressDialog mProgressDialog;
     // Webservices
     private AccessServiceAPI m_ServiceAccess;
     JSONArray points;
@@ -52,6 +53,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         m_ServiceAccess = new AccessServiceAPI();
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage("Obteniendo ubicaciones geograficas...");
+        mProgressDialog.setTitle("Procesando");
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -93,13 +97,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     protected synchronized void buildGoogleApiClient() {
-        Toast.makeText(this, "buildGoogleApiClient", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "buildGoogleApiClient", Toast.LENGTH_SHORT).show();
         mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(LocationServices.API).build();
     }
 
     @Override
     public void onConnected(Bundle bundle) {
-        Toast.makeText(this, "onConnected", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "onConnected", Toast.LENGTH_SHORT).show();
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -140,12 +144,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onConnectionSuspended(int i) {
-        Toast.makeText(this,"onConnectionSuspended",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"onConnectionSuspended",Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Toast.makeText(this,"onConnectionFailed",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"onConnectionFailed",Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -165,7 +169,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         currLocationMarker = mMap.addMarker(markerOptions);
 
-        Toast.makeText(this,"Location Changed",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"Location Changed",Toast.LENGTH_SHORT).show();
 
         //zoom to current position:
         CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(15).build();
@@ -182,16 +186,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Double latitudeLowerBound = latitude - 0.001;
         Double longitudeUpperBound = longitude + 0.001;
         Double longitudeLowerBound = longitude - 0.001;
-        new TaskGetNearestPoints().execute(String.valueOf(latitudeUpperBound),String.valueOf(latitudeLowerBound),String.valueOf(longitudeUpperBound),String.valueOf(longitudeLowerBound));
+        new TaskGetNearestPoints(mProgressDialog,this).execute(String.valueOf(latitudeUpperBound),String.valueOf(latitudeLowerBound),String.valueOf(longitudeUpperBound),String.valueOf(longitudeLowerBound));
     }
 
 
     public class TaskGetNearestPoints extends AsyncTask<String, Void, Integer> {
         JSONObject jObjResult;
-        private ProgressDialog mProgressDialog;
+        ProgressDialog progressDialog;
+        MapsActivity activity;
+        public TaskGetNearestPoints(ProgressDialog mProgressDialog, MapsActivity act){
+            this.progressDialog = mProgressDialog;
+            this.activity = act;
+        }
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog.show();
         }
 
         @Override
@@ -238,6 +248,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            progressDialog.dismiss();
         }
     }
 }

@@ -18,20 +18,26 @@ public class MainActivity extends AppCompatActivity {
 
     private Integer citizenId;
     private Bundle inBundle;
-    private Profile profile;
+    //private Profile profile;
     private TextView userFullname;
     private ProfilePictureView profilePicture;
     private Button buttonMaps;
     private Button buttonCamera;
     private Button buttonMyAccount;
     private Button buttonLogout;
+    Integer userId;
+    String fbId;
+    String fbFullname;
+    String fbEmail;
+    String login_method;
+    Boolean post_as_anonymous;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.activity_main);
-        Log.d("TOKEN2", AccessToken.getCurrentAccessToken().getToken());
+        //Log.d("TOKEN2", AccessToken.getCurrentAccessToken().getToken());
         // Set profile data from login
         setProfileData();
         // Set maps button
@@ -45,16 +51,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setProfileData(){
-        // Get profile
-        inBundle = getIntent().getExtras();
-        profile = (Profile) inBundle.get("profile");
         // Get variables ready
         profilePicture = (ProfilePictureView) findViewById(R.id.profile_picture);
         userFullname = (TextView)findViewById(R.id.user_fullname);
-        // Set data to variables
-        profilePicture.setProfileId(profile.getId());
-        //userFullname.setText(profile.getFirstName() + " " + profile.getLastName());
-        userFullname.setText(profile.getName());
+        // Get profile
+        inBundle = getIntent().getExtras();
+        //profile = (Profile) inBundle.get("profile");
+        login_method = (String) inBundle.get("login_method");
+        if(login_method.equals("fb")){
+            fbId = (String) inBundle.get("fbId");
+            profilePicture.setProfileId(fbId);
+        }
+        userId = (Integer) inBundle.get("userId");
+        fbFullname = (String) inBundle.get("fullname");
+        fbEmail = (String) inBundle.get("email");
+        post_as_anonymous = (Boolean) inBundle.get("post_as_anonymous");
+        userFullname.setText(fbFullname);
     }
 
     public void setMapsButton(){
@@ -85,7 +97,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent my_account = new Intent(MainActivity.this, MyAccountActivity.class);
-                my_account.putExtra("profile",profile);
+                //my_account.putExtra("profile",profile);
+                my_account.putExtra("login_method",login_method);
+                if(login_method.equals("fb")) {
+                    my_account.putExtra("fbId", fbId);
+                }
+                my_account.putExtra("userId",userId);
+                my_account.putExtra("fullname",fbFullname);
+                my_account.putExtra("email",fbEmail);
+                my_account.putExtra("post_as_anonymous",post_as_anonymous);
                 startActivity(my_account);
             }
         });

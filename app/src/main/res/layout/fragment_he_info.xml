@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/he_title_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/he_date_lbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/he_title_txt"
+        android:textSize="14dp"
+        android:text="@string/label_date"/>
+
+    <TextView
+        android:id="@+id/he_date_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/he_date_lbl" />
+
+    <TextView
+        android:id="@+id/he_review_lbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/he_date_txt"
+        android:textSize="14dp"
+        android:text="@string/label_review"/>
+
+    <TextView
+        android:id="@+id/he_review_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/he_review_lbl" />
+
+</RelativeLayout>

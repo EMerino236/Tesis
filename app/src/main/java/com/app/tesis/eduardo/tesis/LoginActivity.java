@@ -6,6 +6,13 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.tesis.eduardo.tesis.services.AccessServiceAPI;
@@ -20,6 +27,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -39,12 +47,21 @@ public class LoginActivity extends AppCompatActivity {
     private AccessTokenTracker accessTokenTracker;
     private ProfileTracker profileTracker;
     Profile profile;
+    Integer userId;
+    String fullname;
+    String email;
     String fbId;
     String fbFullname;
     String fbEmail;
     String fbGender;
+    Boolean post_as_anonymous;
+    EditText email_txt;
+    EditText password_txt;
+    TextView email_error_lbl;
+    TextView password_error_lbl;
+    Button login_button;
     // Facebook login button
-    private LoginButton loginButton;
+    private LoginButton fbLoginButton;
     private FacebookCallback<LoginResult> callback;
     // Webservices
     private AccessServiceAPI m_ServiceAccess;
@@ -57,18 +74,65 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
         m_ServiceAccess = new AccessServiceAPI();
+        email_error_lbl = (TextView) findViewById(R.id.email_error_lbl);
+        password_error_lbl = (TextView) findViewById(R.id.password_error_lbl);
+        email_txt = (EditText) findViewById(R.id.email_txt);
+        password_txt = (EditText) findViewById(R.id.password_txt);
+        login_button = (Button) findViewById(R.id.login_button);
         // Set trackers
         setTrackers();
         // Set login button
         setLoginButton();
+        setFbLoginButton();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.logout_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.logout_menu_login:
+                Toast.makeText(LoginActivity.this,R.string.menu_same_section,Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.logout_menu_register:
+                Intent register = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(register);
+                finish();
+                return true;
+            case R.id.logout_menu_recover_password:
+                Intent recover = new Intent(LoginActivity.this, RecoverPassActivity.class);
+                startActivity(recover);
+                finish();
+                return true;
+            case R.id.logout_menu_terms:
+                Intent terms = new Intent(LoginActivity.this, TermsActivity.class);
+                startActivity(terms);
+                finish();
+                return true;
+            case R.id.logout_menu_privacy:
+                Intent privacy = new Intent(LoginActivity.this, PrivacyActivity.class);
+                startActivity(privacy);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         Log.d("TEST","onResume");
+        after_fb_login();
         //Facebook login
-        profile = Profile.getCurrentProfile();
-        nextActivity();
+        //profile = Profile.getCurrentProfile();
+        //nextActivity();
     }
 
     @Override
@@ -112,8 +176,89 @@ public class LoginActivity extends AppCompatActivity {
         profileTracker.startTracking();
     }
 
-    private void setLoginButton(){
-        loginButton = (LoginButton)findViewById(R.id.login_button);
+    public void setLoginButton(){
+        login_button = (Button) findViewById(R.id.login_button);
+        login_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(validate_form()){
+                    new TaskLogin().execute(email_txt.getText().toString(),password_txt.getText().toString());
+                }
+            }
+        });
+    }
+
+    public class TaskLogin extends AsyncTask<String, Void, Integer> {
+        JSONObject jObjResult;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            //Create data to pass in param
+            Map<String, String> param = new HashMap<>();
+            param.put("email", params[0]);
+            param.put("password", params[1]);
+
+            try {
+                jObjResult = m_ServiceAccess.convertJSONString2Obj(m_ServiceAccess.getJSONStringWithParam_GET(Constants.ENDPOINT_URL+Constants.AUTH_SERVICE,param));
+                if(jObjResult.getBoolean("error")){
+                    Log.d("LOGIN","ERROR");
+                    return Constants.ENDPOINT_ERROR;
+                }
+                userId = jObjResult.getJSONObject("citizen").getInt("id");
+                fullname = jObjResult.getJSONObject("citizen").getString("fullname");
+                email = jObjResult.getJSONObject("citizen").getString("email");
+                post_as_anonymous = jObjResult.getJSONObject("citizen").getBoolean("post_as_anonymous");
+                return Constants.ENDPOINT_SUCCESS;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Constants.ENDPOINT_ERROR;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
+            if(result == Constants.ENDPOINT_ERROR){
+                Toast.makeText(getApplicationContext(), R.string.service_connection_error, Toast.LENGTH_SHORT).show();
+            }else if(result == Constants.ENDPOINT_SUCCESS){
+                after_login();
+            }
+        }
+    }
+
+    private void after_login(){
+        Intent main = new Intent(LoginActivity.this, MainActivity.class);
+        //main.putExtra("profile",profile);
+        main.putExtra("login_method","normal");
+        main.putExtra("userId",userId);
+        main.putExtra("fullname",fullname);
+        main.putExtra("email",email);
+        main.putExtra("post_as_anonymous",post_as_anonymous);
+        startActivity(main);
+        finish();
+    }
+
+    private boolean validate_form(){
+        boolean is_correct = true;
+        email_error_lbl.setText(null);
+        password_error_lbl.setText(null);
+        if(email_txt.getText().length() == 0){
+            email_error_lbl.setText(R.string.required_field);
+            is_correct = false;
+        }
+        if(password_txt.getText().length() == 0){
+            password_error_lbl.setText(R.string.required_field);
+            is_correct = false;
+        }
+        return is_correct;
+    }
+
+    private void setFbLoginButton(){
+        fbLoginButton = (LoginButton)findViewById(R.id.fb_login_button);
         callback = new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -152,8 +297,7 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     t.join();
                     Log.d("TEST","Entering TaskLogin");
-                    new TaskLogin().execute(fbId,fbFullname,fbEmail,accessToken.getToken(),fbGender);
-                    nextActivity();
+                    new TaskFbLogin().execute(fbId,fbFullname,fbEmail,accessToken.getToken(),fbGender);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -169,21 +313,27 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), R.string.facebook_login_exception, Toast.LENGTH_SHORT).show();
             }
         };
-        loginButton.setReadPermissions(Arrays.asList("public_profile","email"));
-        loginButton.registerCallback(callbackManager, callback);
+        fbLoginButton.setReadPermissions(Arrays.asList("public_profile","email"));
+        fbLoginButton.registerCallback(callbackManager, callback);
     }
 
-    private void nextActivity(){
-        Log.d("TEST","nextActivity");
+    private void after_fb_login(){
         if(profile != null){
             Intent main = new Intent(LoginActivity.this, MainActivity.class);
-            main.putExtra("profile",profile);
+            //main.putExtra("profile",profile);
+            main.putExtra("login_method","fb");
+            main.putExtra("userId",userId);
+            main.putExtra("fbId",fbId);
+            main.putExtra("fullname",fbFullname);
+            main.putExtra("email",fbEmail);
+            main.putExtra("post_as_anonymous",post_as_anonymous);
             startActivity(main);
             finish();
         }
+        LoginManager.getInstance().logOut();
     }
 
-    public class TaskLogin extends AsyncTask<String, Void, Integer> {
+    public class TaskFbLogin extends AsyncTask<String, Void, Integer> {
         JSONObject jObjResult;
         @Override
         protected void onPreExecute() {
@@ -201,10 +351,12 @@ public class LoginActivity extends AppCompatActivity {
             param.put("gender", params[4]);
 
             try {
-                jObjResult = m_ServiceAccess.convertJSONString2Obj(m_ServiceAccess.getJSONStringWithParam_POST(Constants.ENDPOINT_URL+Constants.AUTH_SERVICE,param));
+                jObjResult = m_ServiceAccess.convertJSONString2Obj(m_ServiceAccess.getJSONStringWithParam_POST(Constants.ENDPOINT_URL+Constants.FB_AUTH_SERVICE,param));
                 if(jObjResult.getBoolean("error")){
                     return Constants.ENDPOINT_ERROR;
                 }
+                post_as_anonymous = jObjResult.getJSONObject("citizen").getBoolean("post_as_anonymous");
+                userId = jObjResult.getJSONObject("citizen").getInt("id");
                 return Constants.ENDPOINT_SUCCESS;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -217,6 +369,8 @@ public class LoginActivity extends AppCompatActivity {
             super.onPostExecute(result);
             if(result == Constants.ENDPOINT_ERROR){
                 Toast.makeText(getApplicationContext(), R.string.service_connection_error, Toast.LENGTH_SHORT).show();
+            }else if(result == Constants.ENDPOINT_SUCCESS){
+                after_fb_login();
             }
         }
     }

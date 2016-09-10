@@ -9,6 +9,8 @@
     <string name="camera_title">Explorador</string>
     <string name="point_title">Punto de Interes</string>
     <string name="historical_event_title">Evento Historico</string>
+    <string name="register_title">Registrarse</string>
+    <string name="recover_pass_title">Recuperar Contraseña</string>
     <string name="tc_title">Terminos y condiciones</string>
     <string name="pp_title">Politicas de privacidad</string>
     <!-- GENERAL LABELS -->
@@ -16,23 +18,50 @@
     <string name="label_no">No</string>
     <string name="button_save">Guardar Cambios</string>
     <string name="current_position">Aqui estoy</string>
+    <string name="button_login">Iniciar Sesion</string>
+    <string name="button_register">Registrase</string>
+    <string name="button_recover">Recuperar Contraseña</string>
     <!-- MAIN ACTIVITY LABELS -->
     <string name="default_user_fullname">Anonimo</string>
     <string name="button_map">Mostrar Mapa</string>
     <string name="button_camera">Activar Camara</string>
     <string name="button_my_account">Mi cuenta</string>
     <string name="button_logout">Cerrar Sesion</string>
+    <!-- LOGOUT MENU LABELS -->
+    <string name="logout_menu_login">Iniciar Sesion</string>
+    <string name="logout_menu_register">Registrarse</string>
+    <string name="logout_menu_recover_password">Recuperar Contraseña</string>
+    <string name="logout_menu_terms">Terminos y Condiciones</string>
+    <string name="logout_menu_privacy">Politicas de Privacidad</string>
     <!-- MY ACCOUNT LABELS -->
     <string name="label_user_fullname">Nombre Completo</string>
     <string name="label_email">E-mail</string>
+    <string name="label_repeat_email">Repetir E-mail</string>
+    <string name="label_password">Contraseña</string>
+    <string name="label_repeat_password">Repetir Contraseña</string>
+    <string name="label_new_password">Nueva Contraseña</string>
+    <string name="label_repeat_new_password">Repetir Nueva Contraseña</string>
     <string name="label_post_as_anonymous">Publicar como anonimo</string>
+    <string name="label_date">Fecha</string>
+    <string name="label_review">Reseña</string>
     <string name="default_email">No existe el e-mail</string>
     <string name="switch_text_on">Publicar como anonimo</string>
     <string name="switch_text_off">Publicar con mi nombre</string>
+    <string name="accept_terms_privacy_txt">Al iniciar sesion o registrarme acepto los Terminos y Condiciones y las Politicas de Privacidad.</string>
     <!-- MESSAGES -->
     <string name="service_connection_error">No se pudo conectar con el servidor, algunas funcionalidades pueden no estar disponibles.</string>
+    <string name="register_error">Ocurrió un problema al registrar el usuario, inténtelo de nuevo más tarde.</string>
+    <string name="recover_error">Ocurrió un problema al recuperar contraseña, inténtelo de nuevo más tarde.</string>
+    <string name="register_success">Su usuario se creó con éxito, por favor inicie sesión.</string>
+    <string name="recover_success">Hemos enviado instrucciones al email ingresado.</string>
     <string name="facebook_login_cancelled">Inicio de sesion cancelado.</string>
     <string name="facebook_login_exception">No se pudo conectar con Facebook.</string>
+    <string name="menu_same_section">Ya se encuentra en esta seccion.</string>
+    <string name="my_account_edit_success">Se guardaron correctamente los cambios.</string>
+    <!-- ERRORS -->
+    <string name="required_field">Este campo es requerido</string>
+    <string name="repeat_password_mismatch">Las contraseñas no coinciden</string>
+    <string name="repeat_email_mismatch">Los email no coinciden</string>
     <!-- TERMS AND CONDITIONS -->
     <string name="tc_p0">A continuación se describen los términos y condiciones, los cuales regularán el acceso y uso de la aplicación móvil.</string>
     <string name="tc_h1"><u>Normas generales de uso de la aplicación móvil</u></string>
@@ -40,16 +69,15 @@
 Finalmente, el usuario tendrá la posibilidad de darse de baja de la aplicación móvil en cualquier momento, así como reactivar su usuario en caso crea conveniente.
 </string>
     <string name="tc_h2">Prohibiciones en el uso de la aplicación móvil</string>
-    <string name="tc_p2">Queda prohibido que se use la aplicación móvil para lo siguiente:
-	Recopilar, en forma alguna, la información de los usuarios de la aplicación móvil.
-	Copiar, modificar o distribuir el contenido mostrado en la aplicación móvil sin el consentimiento de los titulares.
-	Distribuir software malicioso que puedan afectar, de cualquier modo, el funcionamiento de la aplicación móvil y la integridad de los datos que utiliza.
-	Lucrar con el contenido mostrado por la aplicación móvil sin el consentimiento de los titulares.
-	Publicar contenido falso, incorrecto, engañoso, obsceno o difamatorio.
-	Acceder al código fuente de la aplicación móvil sin el consentimiento de los titulares.
-	Alterar, en forma alguna, el funcionamiento de la aplicación sin el consentimiento de los titulares.
-Así mismo, el usuario no podrá compartir las credenciales que lo identifican en la aplicación móvil con otras personas.
-</string>
+    <string name="tc_p2">Queda prohibido que se use la aplicación móvil para lo siguiente:</string>
+    <string name="tc_p2_1">- Recopilar, en forma alguna, la información de los usuarios de la aplicación móvil.</string>
+    <string name="tc_p2_2">- Copiar, modificar o distribuir el contenido mostrado en la aplicación móvil sin el consentimiento de los titulares.</string>
+    <string name="tc_p2_3">- Distribuir software malicioso que puedan afectar, de cualquier modo, el funcionamiento de la aplicación móvil y la integridad de los datos que utiliza.</string>
+    <string name="tc_p2_4">- Lucrar con el contenido mostrado por la aplicación móvil sin el consentimiento de los titulares.</string>
+    <string name="tc_p2_5">- Publicar contenido falso, incorrecto, engañoso, obsceno o difamatorio.</string>
+    <string name="tc_p2_6">- Acceder al código fuente de la aplicación móvil sin el consentimiento de los titulares.</string>
+    <string name="tc_p2_7">- Alterar, en forma alguna, el funcionamiento de la aplicación sin el consentimiento de los titulares.</string>
+    <string name="tc_p2_8">- Así mismo, el usuario no podrá compartir las credenciales que lo identifican en la aplicación móvil con otras personas.</string>
     <string name="tc_h3">Interrupción del servicio</string>
     <string name="tc_p3">El sistema que da soporte a la aplicación móvil puede, eventualmente, no estar disponible debido a mantenimiento o imprevistos técnicos. En tales casos se tratará de restablecer el funcionamiento normal lo más pronto posible, sin que por ello pueda imputársele algún tipo de responsabilidad a los titulares de la aplicación móvil.</string>
     <string name="tc_h4">Responsabilidades del uso de la aplicación móvil</string>
@@ -65,34 +93,30 @@ Así mismo, el usuario no podrá compartir las credenciales que lo identifican e
     <string name="pp_dp_h0">Sobre la protección de datos personales</string>
     <string name="pp_h1">Datos personales</string>
     <string name="pp_p1">El uso de la aplicación móvil obliga a los usuarios a proporcionarnos información personal, la cual se realiza con el consentimiento de éstos, para ser procesados conforme a la Ley N° 29733, Ley de protección de datos personales.
-Los datos que serán recopilados, almacenados y procesados son los siguientes:
-	Nombre completo.
-	Correo electrónico.
-	Ubicación geográfica, expresada en latitud y longitud.
-</string>
+Los datos que serán recopilados, almacenados y procesados son los siguientes:</string>
+    <string name="pp_p1_1">- Nombre completo.</string>
+    <string name="pp_p1_2">- Correo electrónico.</string>
+    <string name="pp_p1_3">- Ubicación geográfica, expresada en latitud y longitud.</string>
     <string name="pp_h2">Principio de legalidad</string>
     <string name="pp_p2">Los titulares de la aplicación móvil no recopilarán los datos personales de los usuarios mediante medios fraudulentos o sin su consentimiento. Así mismo, no recopilarán otros tipos de datos que no se hayan especificado explícitamente en esta sección o, que no sean de conocimiento de los usuarios.</string>
     <string name="pp_h3">Principio de finalidad</string>
-    <string name="pp_p3">El uso que se le dará a los datos personales de los usuarios de la aplicación móvil tendrá los siguientes fines:
-	Hacer identificable al usuario y a las acciones que éste realice.
-	Poder referenciar los aportes a los usuarios que los realizaron.
-	Mostrar contenido relevante al usuario considerando su ubicación real.
-	De darse el caso, recurrir a las sanciones establecidas en los términos y condiciones.
-Los datos personales no pasarán, bajo ningún motivo, a ser posesión de terceros. De esta forma aseguramos que el único uso que se les dé sean los especificados en esta sección.
-</string>
+    <string name="pp_p3">El uso que se le dará a los datos personales de los usuarios de la aplicación móvil tendrá los siguientes fines:</string>
+    <string name="pp_p3_1">- Hacer identificable al usuario y a las acciones que éste realice.</string>
+    <string name="pp_p3_2">- Poder referenciar los aportes a los usuarios que los realizaron.</string>
+    <string name="pp_p3_3">- Mostrar contenido relevante al usuario considerando su ubicación real.</string>
+    <string name="pp_p3_4">- De darse el caso, recurrir a las sanciones establecidas en los términos y condiciones.</string>
+    <string name="pp_p3_5">- Los datos personales no pasarán, bajo ningún motivo, a ser posesión de terceros. De esta forma aseguramos que el único uso que se les dé sean los especificados en esta sección.</string>
     <string name="pp_h4">Principio de seguridad</string>
     <string name="pp_p4">Toda transferencia de datos que realice la aplicación móvil estará encriptada, lo cual garantiza la seguridad de la información de los usuarios y que éstos no puedan ser utilizados de forma maliciosa por terceros.</string>
     <string name="pp_h5">Derechos del titular de los datos personales</string>
-    <string name="pp_p5">Los titulares de los datos personales (usuarios de la aplicación móvil) tienen los siguientes derechos:
-	A obtener acceso a sus datos personales.
-	A la actualización, inclusión y rectificación de sus datos personales, en caso crean conveniente.
-	A darse de baja, con el fin de que se dejen de usar sus datos personales.
-</string>
+    <string name="pp_p5">Los titulares de los datos personales (usuarios de la aplicación móvil) tienen los siguientes derechos:</string>
+    <string name="pp_p5_1">- A obtener acceso a sus datos personales.</string>
+    <string name="pp_p5_2">- A la actualización, inclusión y rectificación de sus datos personales, en caso crean conveniente.</string>
+    <string name="pp_p5_3">- A darse de baja, con el fin de que se dejen de usar sus datos personales.</string>
     <string name="pp_da_h0">Sobre los derechos de autor</string>
     <string name="pp_h6">Glosario</string>
-    <string name="pp_p6">	Obra: toda creación intelectual personal y original, susceptible de ser divulgada o reproducida en cualquier forma, conocida o por conocerse.
-	Autor: toda persona natural que realiza la creación intelectual.
-</string>
+    <string name="pp_p6_1">- Obra: toda creación intelectual personal y original, susceptible de ser divulgada o reproducida en cualquier forma, conocida o por conocerse.</string>
+    <string name="pp_p6_2">- Autor: toda persona natural que realiza la creación intelectual.</string>
     <string name="pp_h7">Disposiciones generales</string>
     <string name="pp_p7">Si bien los usuarios de la aplicación móvil pueden aportar contenido que no se encuentre presente en la aplicación pero que es de conocimiento público, puede darse el caso de que éstos realicen el aporte de una obra inédita. En este último caso, tanto los usuarios como los titulares de la aplicación móvil, deberán regirse bajo el decreto legislativo No. 822, Ley sobre el derecho de autor. En ese sentido, a los autores se les reconocerán los derechos que se detallan en las secciones siguientes.</string>
     <string name="pp_h8">Derecho de paternidad</string>

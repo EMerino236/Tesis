@@ -24,14 +24,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:textSize="20pt" />
+                android:textSize="14pt" />
 
             <TextView
                 android:id="@+id/point_review"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="40px" />
+                android:layout_height="wrap_content" />
 
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@android:color/background_light"/>
 
             <LinearLayout
                 android:id="@+id/historical_events_container"

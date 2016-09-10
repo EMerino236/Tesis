@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/logout_menu_login"
+        android:title="@string/logout_menu_login"/>
+    <item android:id="@+id/logout_menu_register"
+        android:title="@string/logout_menu_register"/>
+    <item android:id="@+id/logout_menu_recover_password"
+        android:title="@string/logout_menu_recover_password"/>
+    <item android:id="@+id/logout_menu_terms"
+        android:title="@string/logout_menu_terms"/>
+    <item android:id="@+id/logout_menu_privacy"
+        android:title="@string/logout_menu_privacy"/>
+</menu>

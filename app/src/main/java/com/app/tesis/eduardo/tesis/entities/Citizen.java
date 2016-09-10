@@ -1,15 +1,19 @@
 package com.app.tesis.eduardo.tesis.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Eduardo on 14/07/2016.
  */
-public class Citizen {
+public class Citizen implements Parcelable {
 
     private Integer id;
     private String facebookId;
     private String fullname;
     private String email;
     private String sessionToken;
+    private Boolean postAsAnonymous;
     private String premiumUntil;
 
     public Integer getId() {
@@ -30,6 +34,9 @@ public class Citizen {
 
     public String getSessionToken() {
         return sessionToken;
+    }
+    public Boolean getPostAsAnonymous() {
+        return postAsAnonymous;
     }
 
     public String getPremiumUntil() {
@@ -58,5 +65,19 @@ public class Citizen {
 
     public void setPremiumUntil(String premiumUntil) {
         this.premiumUntil = premiumUntil;
+    }
+
+    public void setPostAsAnonymous(Boolean postAsAnonymous) {
+        this.postAsAnonymous = postAsAnonymous;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
     }
 }
