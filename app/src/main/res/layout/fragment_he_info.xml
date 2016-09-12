@@ -7,34 +7,46 @@
         android:id="@+id/he_title_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16dp" />
+        android:textSize="16dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp" />
 
     <TextView
         android:id="@+id/he_date_lbl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/he_title_txt"
-        android:textSize="14dp"
-        android:text="@string/label_date"/>
+        android:textSize="15dp"
+        android:text="@string/label_date"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
 
     <TextView
         android:id="@+id/he_date_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/he_date_lbl" />
+        android:layout_below="@+id/he_date_lbl"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
 
     <TextView
         android:id="@+id/he_review_lbl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/he_date_txt"
-        android:textSize="14dp"
-        android:text="@string/label_review"/>
+        android:textSize="15dp"
+        android:text="@string/label_review"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"/>
 
     <TextView
         android:id="@+id/he_review_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/he_review_lbl" />
+        android:layout_below="@+id/he_review_lbl"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp" />
 
 </RelativeLayout>

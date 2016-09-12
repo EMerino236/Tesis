@@ -7,32 +7,34 @@
     <string name="main_title">Menu</string>
     <string name="my_account_title">Mi Cuenta</string>
     <string name="camera_title">Explorador</string>
-    <string name="point_title">Punto de Interes</string>
-    <string name="historical_event_title">Evento Historico</string>
+    <string name="point_title">Punto de Interés</string>
+    <string name="historical_event_title">Evento Histórico</string>
     <string name="register_title">Registrarse</string>
     <string name="recover_pass_title">Recuperar Contraseña</string>
-    <string name="tc_title">Terminos y condiciones</string>
-    <string name="pp_title">Politicas de privacidad</string>
+    <string name="tc_title">Términos y condiciones</string>
+    <string name="pp_title">Políticas de privacidad</string>
     <!-- GENERAL LABELS -->
     <string name="label_yes">Si</string>
     <string name="label_no">No</string>
     <string name="button_save">Guardar Cambios</string>
-    <string name="current_position">Aqui estoy</string>
-    <string name="button_login">Iniciar Sesion</string>
+    <string name="current_position">Aquí estoy</string>
+    <string name="button_login">Iniciar Sesión</string>
     <string name="button_register">Registrase</string>
     <string name="button_recover">Recuperar Contraseña</string>
+    <string name="button_play">Reproducir</string>
+    <string name="button_playing">Detener Reproducción</string>
     <!-- MAIN ACTIVITY LABELS -->
-    <string name="default_user_fullname">Anonimo</string>
+    <string name="default_user_fullname">Anónimo</string>
     <string name="button_map">Mostrar Mapa</string>
-    <string name="button_camera">Activar Camara</string>
+    <string name="button_camera">Activar Cámara</string>
     <string name="button_my_account">Mi cuenta</string>
-    <string name="button_logout">Cerrar Sesion</string>
+    <string name="button_logout">Cerrar Sesión</string>
     <!-- LOGOUT MENU LABELS -->
-    <string name="logout_menu_login">Iniciar Sesion</string>
+    <string name="logout_menu_login">Iniciar Sesión</string>
     <string name="logout_menu_register">Registrarse</string>
     <string name="logout_menu_recover_password">Recuperar Contraseña</string>
-    <string name="logout_menu_terms">Terminos y Condiciones</string>
-    <string name="logout_menu_privacy">Politicas de Privacidad</string>
+    <string name="logout_menu_terms">Términos y Condiciones</string>
+    <string name="logout_menu_privacy">Políticas de Privacidad</string>
     <!-- MY ACCOUNT LABELS -->
     <string name="label_user_fullname">Nombre Completo</string>
     <string name="label_email">E-mail</string>
@@ -41,13 +43,13 @@
     <string name="label_repeat_password">Repetir Contraseña</string>
     <string name="label_new_password">Nueva Contraseña</string>
     <string name="label_repeat_new_password">Repetir Nueva Contraseña</string>
-    <string name="label_post_as_anonymous">Publicar como anonimo</string>
+    <string name="label_post_as_anonymous">Publicar como anónimo</string>
     <string name="label_date">Fecha</string>
     <string name="label_review">Reseña</string>
     <string name="default_email">No existe el e-mail</string>
-    <string name="switch_text_on">Publicar como anonimo</string>
+    <string name="switch_text_on">Publicar como anónimo</string>
     <string name="switch_text_off">Publicar con mi nombre</string>
-    <string name="accept_terms_privacy_txt">Al iniciar sesion o registrarme acepto los Terminos y Condiciones y las Politicas de Privacidad.</string>
+    <string name="accept_terms_privacy_txt">Al iniciar sesión o registrarme acepto los Términos y Condiciones y las Políticas de Privacidad.</string>
     <!-- MESSAGES -->
     <string name="service_connection_error">No se pudo conectar con el servidor, algunas funcionalidades pueden no estar disponibles.</string>
     <string name="register_error">Ocurrió un problema al registrar el usuario, inténtelo de nuevo más tarde.</string>

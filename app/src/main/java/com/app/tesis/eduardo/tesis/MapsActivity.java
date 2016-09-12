@@ -182,10 +182,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void getPoints(){
-        Double latitudeUpperBound = latitude + 0.001;
-        Double latitudeLowerBound = latitude - 0.001;
-        Double longitudeUpperBound = longitude + 0.001;
-        Double longitudeLowerBound = longitude - 0.001;
+        Double latitudeUpperBound = latitude + 0.01;
+        Double latitudeLowerBound = latitude - 0.01;
+        Double longitudeUpperBound = longitude + 0.01;
+        Double longitudeLowerBound = longitude - 0.01;
         new TaskGetNearestPoints(mProgressDialog,this).execute(String.valueOf(latitudeUpperBound),String.valueOf(latitudeLowerBound),String.valueOf(longitudeUpperBound),String.valueOf(longitudeLowerBound));
     }
 

@@ -20,6 +20,8 @@
     <string name="button_login">Log In</string>
     <string name="button_register">Register</string>
     <string name="button_recover">Recover Password</string>
+    <string name="button_play">Play</string>
+    <string name="button_playing">Stop Playing</string>
     <!-- MAIN ACTIVITY LABELS -->
     <string name="default_user_fullname">Anonimous</string>
     <string name="button_map">Show Map</string>
