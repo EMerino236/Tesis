@@ -3,6 +3,7 @@ package com.app.tesis.eduardo.tesis;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,13 +86,20 @@ public class PhotoFragment extends Fragment {
             }else if(result == Constants.ENDPOINT_SUCCESS){
                 try {
                     int length = photos.length();
-                    for(int i=0;i<length;i++){
-                        TextView title = new TextView(getContext());
-                        title.setText(photos.getJSONObject(i).getString("title"));
-                        ImageView photo = new ImageView(getContext());
-                        Picasso.with(getContext()).load(Constants.HISTORICAL_EVENTS_DIRECTORY+historicalEventId+"/photos/"+photos.getJSONObject(i).getString("file_name")).into(photo);
-                        photosContainer.addView(title);
-                        photosContainer.addView(photo);
+                    if(length>0){
+                        for(int i=0;i<length;i++){
+                            TextView title = new TextView(getContext());
+                            title.setText(photos.getJSONObject(i).getString("title"));
+                            ImageView photo = new ImageView(getContext());
+                            Picasso.with(getContext()).load(Constants.HISTORICAL_EVENTS_DIRECTORY+historicalEventId+"/photos/"+photos.getJSONObject(i).getString("file_name")).into(photo);
+                            photosContainer.addView(title);
+                            photosContainer.addView(photo);
+                        }
+                    }else{
+                        TextView emptyResults = new TextView(getContext());
+                        emptyResults.setText(R.string.photos_empty_result);
+                        emptyResults.setGravity(Gravity.CENTER);
+                        photosContainer.addView(emptyResults);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

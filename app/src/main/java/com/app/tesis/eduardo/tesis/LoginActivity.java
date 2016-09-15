@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
     private FacebookCallback<LoginResult> callback;
     // Webservices
     private AccessServiceAPI m_ServiceAccess;
+    JSONObject jObjResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +130,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.d("TEST","onResume");
-        after_fb_login();
+        LoginManager.getInstance().logOut();
+        //after_fb_login();
         //Facebook login
         //profile = Profile.getCurrentProfile();
         //nextActivity();
@@ -189,7 +191,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public class TaskLogin extends AsyncTask<String, Void, Integer> {
-        JSONObject jObjResult;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -223,7 +224,13 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
             if(result == Constants.ENDPOINT_ERROR){
-                Toast.makeText(getApplicationContext(), R.string.service_connection_error, Toast.LENGTH_SHORT).show();
+                try {
+                    String message = jObjResult.getString("message");
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), R.string.register_error, Toast.LENGTH_LONG).show();
+                }
             }else if(result == Constants.ENDPOINT_SUCCESS){
                 after_login();
             }
@@ -265,8 +272,8 @@ public class LoginActivity extends AppCompatActivity {
                 AccessToken accessToken = loginResult.getAccessToken();
                 Log.d("TOKEN2", accessToken.getToken());
                 profile = Profile.getCurrentProfile();
-                fbId = profile.getId();
-                fbFullname = profile.getName();
+                //fbId = profile.getId();
+                //fbFullname = profile.getName();
                 // Graph request
                 Bundle parameters = new Bundle();
                 parameters.putString("fields", "id,name,email,gender");
@@ -278,6 +285,8 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("TEST", response.toString());
                                 // Application code
                                 try {
+                                    fbId = object.getString("id");
+                                    fbFullname = object.getString("name");
                                     fbEmail = object.getString("email");
                                     fbGender = object.getString("gender");
                                 } catch (JSONException e) {
@@ -317,24 +326,7 @@ public class LoginActivity extends AppCompatActivity {
         fbLoginButton.registerCallback(callbackManager, callback);
     }
 
-    private void after_fb_login(){
-        if(profile != null){
-            Intent main = new Intent(LoginActivity.this, MainActivity.class);
-            //main.putExtra("profile",profile);
-            main.putExtra("login_method","fb");
-            main.putExtra("userId",userId);
-            main.putExtra("fbId",fbId);
-            main.putExtra("fullname",fbFullname);
-            main.putExtra("email",fbEmail);
-            main.putExtra("post_as_anonymous",post_as_anonymous);
-            startActivity(main);
-            finish();
-        }
-        LoginManager.getInstance().logOut();
-    }
-
     public class TaskFbLogin extends AsyncTask<String, Void, Integer> {
-        JSONObject jObjResult;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -368,10 +360,32 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
             if(result == Constants.ENDPOINT_ERROR){
-                Toast.makeText(getApplicationContext(), R.string.service_connection_error, Toast.LENGTH_SHORT).show();
+                try {
+                    String message = jObjResult.getString("message");
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), R.string.register_error, Toast.LENGTH_LONG).show();
+                }
             }else if(result == Constants.ENDPOINT_SUCCESS){
                 after_fb_login();
             }
         }
+    }
+
+    private void after_fb_login(){
+        //if(profile != null){
+            Intent main = new Intent(LoginActivity.this, MainActivity.class);
+            //main.putExtra("profile",profile);
+            main.putExtra("login_method","fb");
+            main.putExtra("userId",userId);
+            main.putExtra("fbId",fbId);
+            main.putExtra("fullname",fbFullname);
+            main.putExtra("email",fbEmail);
+            main.putExtra("post_as_anonymous",post_as_anonymous);
+            startActivity(main);
+            finish();
+        //}
+        //LoginManager.getInstance().logOut();
     }
 }

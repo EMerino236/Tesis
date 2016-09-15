@@ -85,6 +85,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         }
         mMap.setMyLocationEnabled(true);
+        mMap.getUiSettings().setMapToolbarEnabled(false);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
         buildGoogleApiClient();
         mGoogleApiClient.connect();
@@ -121,11 +123,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
             latitude = mLastLocation.getLatitude();
             longitude = mLastLocation.getLongitude();
+            /*
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);
             markerOptions.title(String.valueOf(R.string.current_position));
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
             currLocationMarker = mMap.addMarker(markerOptions);
+            */
             //zoom to current position:
             CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(15).build();
 
@@ -157,18 +161,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //place marker at current position
         //mGoogleMap.clear();
+        /*
         if (currLocationMarker != null) {
             currLocationMarker.remove();
         }
+        */
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
         latitude = location.getLatitude();
         longitude = location.getLongitude();
+        /*
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title(String.valueOf(R.string.current_position));
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         currLocationMarker = mMap.addMarker(markerOptions);
-
+        */
         //Toast.makeText(this,"Location Changed",Toast.LENGTH_SHORT).show();
 
         //zoom to current position:
@@ -238,15 +245,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             super.onPostExecute(result);
             if(result == Constants.ENDPOINT_ERROR){
                 Toast.makeText(getApplicationContext(), R.string.service_connection_error, Toast.LENGTH_SHORT).show();
-            }
-            int length = points.length();
-            try {
-                for(int i=0;i<length;i++){
+            }else if(result == Constants.ENDPOINT_SUCCESS) {
+                int length = points.length();
+                try {
+                    for (int i = 0; i < length; i++) {
                         mMap.addMarker(new MarkerOptions().position(new LatLng(points.getJSONObject(i).getDouble("latitude"), points.getJSONObject(i).getDouble("longitude"))).title(points.getJSONObject(i).getString("name")));
-
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
             progressDialog.dismiss();
         }

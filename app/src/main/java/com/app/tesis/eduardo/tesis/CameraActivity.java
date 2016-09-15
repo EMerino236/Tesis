@@ -44,8 +44,6 @@ import java.util.Map;
 public class CameraActivity extends AppCompatActivity implements ConnectionCallbacks, OnConnectionFailedListener, LocationListener, OnClickBeyondarObjectListener {
     private OnClickBeyondarObjectListener myself = this;
     private BeyondarFragmentSupport mBeyondarFragment;
-    private TextView latituteField;
-    private TextView longitudeField;
     double latitude;
     double longitude;
     World world;
@@ -71,9 +69,6 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         world = new World(getApplicationContext());
-
-        latituteField = (TextView) findViewById(R.id.TextView01);
-        longitudeField = (TextView) findViewById(R.id.TextView02);
 
         m_ServiceAccess = new AccessServiceAPI();
         mProgressDialog = new ProgressDialog(this);
@@ -154,16 +149,11 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
             latitude = mLastLocation.getLatitude();
             longitude = mLastLocation.getLongitude();
             world.setGeoPosition(latitude, longitude);
-            latituteField.setText(String.valueOf(latitude));
-            longitudeField.setText(String.valueOf(longitude));
             if(!hasPoints){
                 getPoints();
                 hasPoints = true;
             }
 
-        } else {
-            latituteField.setText("LATITUD");
-            longitudeField.setText("LONGITUD");
         }
 
     }
@@ -279,17 +269,17 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
     @Override
     public void onClickBeyondarObject(ArrayList<BeyondarObject> arrayList) {
         // The first element in the array belongs to the closest BeyondarObject
-        Toast.makeText(this, "Clicked on: " + arrayList.get(0).getName(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Clicked on: " + arrayList.get(0).getName(), Toast.LENGTH_LONG).show();
         Intent point = new Intent(CameraActivity.this, PointActivity.class);
         point.putExtra("pointId",arrayList.get(0).getId());
         startActivity(point);
     }
 
     public void getPoints(){
-        Double latitudeUpperBound = latitude + 0.001;
-        Double latitudeLowerBound = latitude - 0.001;
-        Double longitudeUpperBound = longitude + 0.001;
-        Double longitudeLowerBound = longitude - 0.001;
+        Double latitudeUpperBound = latitude + 0.01;
+        Double latitudeLowerBound = latitude - 0.01;
+        Double longitudeUpperBound = longitude + 0.01;
+        Double longitudeLowerBound = longitude - 0.01;
         new TaskGetNearestPoints(mProgressDialog,this).execute(String.valueOf(latitudeUpperBound),String.valueOf(latitudeLowerBound),String.valueOf(longitudeUpperBound),String.valueOf(longitudeLowerBound));
     }
 

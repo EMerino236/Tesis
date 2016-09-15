@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import com.app.tesis.eduardo.tesis.utils.Constants;
 import com.beyondar.android.world.GeoObject;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -39,6 +41,10 @@ public class RegisterActivity extends AppCompatActivity {
     TextView password_error_lbl;
     TextView repeat_password_error_lbl;
     Button register_button;
+    Integer userId;
+    String fullname;
+    String email;
+    Boolean post_as_anonymous;
     // Webservices
     private AccessServiceAPI m_ServiceAccess;
 
@@ -122,6 +128,9 @@ public class RegisterActivity extends AppCompatActivity {
         if(email_txt.getText().length() == 0){
             email_error_lbl.setText(R.string.required_field);
             is_correct = false;
+        }else if(!Patterns.EMAIL_ADDRESS.matcher(email_txt.getText()).matches()){
+            email_error_lbl.setText(R.string.email_patterns_mismatch);
+            is_correct = false;
         }
         if(password_txt.getText().length() == 0){
             password_error_lbl.setText(R.string.required_field);
@@ -155,6 +164,10 @@ public class RegisterActivity extends AppCompatActivity {
                 if(jObjResult.getBoolean("error")){
                     return Constants.ENDPOINT_ERROR;
                 }
+                userId = jObjResult.getJSONObject("citizen").getInt("id");
+                fullname = jObjResult.getJSONObject("citizen").getString("fullname");
+                email = jObjResult.getJSONObject("citizen").getString("email");
+                post_as_anonymous = jObjResult.getJSONObject("citizen").getBoolean("post_as_anonymous");
                 return Constants.ENDPOINT_SUCCESS;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -166,13 +179,27 @@ public class RegisterActivity extends AppCompatActivity {
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
             if(result == Constants.ENDPOINT_ERROR){
-                Toast.makeText(getApplicationContext(), R.string.register_error, Toast.LENGTH_LONG).show();
+                try {
+                    String message = jObjResult.getString("message");
+                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), R.string.register_error, Toast.LENGTH_LONG).show();
+                }
             }else if(result == Constants.ENDPOINT_SUCCESS){
-                Intent login = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(login);
-                Toast.makeText(getApplicationContext(), R.string.register_success, Toast.LENGTH_LONG).show();
-                finish();
+                after_register();
             }
         }
+    }
+
+    private void after_register(){
+        Intent main = new Intent(RegisterActivity.this, MainActivity.class);
+        main.putExtra("login_method","normal");
+        main.putExtra("userId",userId);
+        main.putExtra("fullname",fullname);
+        main.putExtra("email",email);
+        main.putExtra("post_as_anonymous",post_as_anonymous);
+        startActivity(main);
+        finish();
     }
 }

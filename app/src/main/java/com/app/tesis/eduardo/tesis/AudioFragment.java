@@ -6,6 +6,7 @@ import android.media.session.MediaController;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,40 +96,53 @@ public class AudioFragment extends Fragment {
                     audiosLength = audios.length();
                     mPlayerList = new MediaPlayer[audiosLength];
                     playButtonList = new Button[audiosLength];
-                    for(int i=0;i<audiosLength;i++){
-                        final int finalI = i;
-                        TextView title = new TextView(getContext());
-                        title.setText(audios.getJSONObject(i).getString("title"));
-                        mPlayerList[i] = new MediaPlayer();
-                        mPlayerList[i].setAudioStreamType(AudioManager.STREAM_MUSIC);
-                        mPlayerList[i].setDataSource(Constants.HISTORICAL_EVENTS_DIRECTORY+historicalEventId+"/audios/"+audios.getJSONObject(i).getString("file_name"));
-                        mPlayerList[i].prepare();
-                        playButtonList[i] = new Button(getContext());
-                        //Button playButton = new Button(getContext());
-                        playButtonList[i].setText(R.string.button_play);
-                        playButtonList[i].setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                for(int j=0;j<audiosLength;j++){
-                                    if(mPlayerList[j]!=null && mPlayerList[j].isPlaying()){
-                                        mPlayerList[j].pause();
-                                    }
-                                    if(playButtonList[j]!=null){
-                                        playButtonList[j].setText(R.string.button_play);
+                    if(audiosLength>0) {
+                        for (int i = 0; i < audiosLength; i++) {
+                            final int finalI = i;
+                            TextView title = new TextView(getContext());
+                            title.setText(audios.getJSONObject(i).getString("title"));
+                            mPlayerList[i] = new MediaPlayer();
+                            mPlayerList[i].setAudioStreamType(AudioManager.STREAM_MUSIC);
+                            mPlayerList[i].setDataSource(Constants.HISTORICAL_EVENTS_DIRECTORY + historicalEventId + "/audios/" + audios.getJSONObject(i).getString("file_name"));
+                            mPlayerList[i].prepare();
+                            playButtonList[i] = new Button(getContext());
+                            //Button playButton = new Button(getContext());
+                            playButtonList[i].setText(R.string.button_play);
+                            playButtonList[i].setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    // If the selected audio is playing
+                                    if (mPlayerList[finalI] != null && mPlayerList[finalI].isPlaying()) {
+                                        mPlayerList[finalI].pause();
+                                        playButtonList[finalI].setText(R.string.button_play);
+                                    } else {
+                                        for (int j = 0; j < audiosLength; j++) {
+                                            if (mPlayerList[j] != null && mPlayerList[j].isPlaying()) {
+                                                mPlayerList[j].pause();
+                                            }
+                                            if (playButtonList[j] != null) {
+                                                playButtonList[j].setText(R.string.button_play);
+                                            }
+                                        }
+                                        mPlayerList[finalI].start();
+                                        playButtonList[finalI].setText(R.string.button_playing);
                                     }
                                 }
-                                mPlayerList[finalI].start();
-                                playButtonList[finalI].setText(R.string.button_playing);
-                            }
-                        });
-                        mPlayerList[i].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                            @Override
-                            public void onCompletion(MediaPlayer mp) {
-                                playButtonList[finalI].setText(R.string.button_play);
-                            }
-                        });
-                        audiosContainer.addView(title);
-                        audiosContainer.addView(playButtonList[i]);
+                            });
+                            mPlayerList[i].setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                @Override
+                                public void onCompletion(MediaPlayer mp) {
+                                    playButtonList[finalI].setText(R.string.button_play);
+                                }
+                            });
+                            audiosContainer.addView(title);
+                            audiosContainer.addView(playButtonList[i]);
+                        }
+                    }else{
+                        TextView emptyResults = new TextView(getContext());
+                        emptyResults.setText(R.string.photos_empty_result);
+                        emptyResults.setGravity(Gravity.CENTER);
+                        audiosContainer.addView(emptyResults);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
