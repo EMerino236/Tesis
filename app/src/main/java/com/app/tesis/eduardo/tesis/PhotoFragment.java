@@ -90,6 +90,7 @@ public class PhotoFragment extends Fragment {
                         for(int i=0;i<length;i++){
                             TextView title = new TextView(getContext());
                             title.setText(photos.getJSONObject(i).getString("title"));
+                            title.setPadding(25,0,25,0);
                             ImageView photo = new ImageView(getContext());
                             Picasso.with(getContext()).load(Constants.HISTORICAL_EVENTS_DIRECTORY+historicalEventId+"/photos/"+photos.getJSONObject(i).getString("file_name")).into(photo);
                             photosContainer.addView(title);

@@ -75,6 +75,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent maps = new Intent(MainActivity.this, MapsActivity.class);
+                maps.putExtra("login_method",login_method);
+                if(login_method.equals("fb")) {
+                    maps.putExtra("fbId", fbId);
+                }
+                maps.putExtra("userId",userId);
+                maps.putExtra("fullname",fbFullname);
+                maps.putExtra("email",fbEmail);
+                maps.putExtra("post_as_anonymous",post_as_anonymous);
                 startActivity(maps);
             }
         });
@@ -86,6 +94,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent camera = new Intent(MainActivity.this, CameraActivity.class);
+                camera.putExtra("login_method",login_method);
+                if(login_method.equals("fb")) {
+                    camera.putExtra("fbId", fbId);
+                }
+                camera.putExtra("userId",userId);
+                camera.putExtra("fullname",fbFullname);
+                camera.putExtra("email",fbEmail);
+                camera.putExtra("post_as_anonymous",post_as_anonymous);
                 startActivity(camera);
             }
         });

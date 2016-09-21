@@ -60,17 +60,22 @@ public class LoginActivity extends AppCompatActivity {
     TextView email_error_lbl;
     TextView password_error_lbl;
     Button login_button;
+    TextView register_txt;
+    TextView recover_txt;
+    TextView terms_txt;
+    TextView privacy_txt;
     // Facebook login button
     private LoginButton fbLoginButton;
     private FacebookCallback<LoginResult> callback;
     // Webservices
     private AccessServiceAPI m_ServiceAccess;
     JSONObject jObjResult;
+    ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("TEST","onCreate");
+        //Log.d("TEST","onCreate");
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
@@ -80,11 +85,51 @@ public class LoginActivity extends AppCompatActivity {
         email_txt = (EditText) findViewById(R.id.email_txt);
         password_txt = (EditText) findViewById(R.id.password_txt);
         login_button = (Button) findViewById(R.id.login_button);
+        // Progress dialog
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage(getString(R.string.progress_dialog_user_message));
+        mProgressDialog.setTitle(R.string.progress_dialog_title);
+        setTextButtons();
         // Set trackers
         setTrackers();
         // Set login button
         setLoginButton();
         setFbLoginButton();
+    }
+
+    public void setTextButtons(){
+        register_txt = (TextView) findViewById(R.id.register_txt);
+        recover_txt = (TextView) findViewById(R.id.recover_txt);
+        terms_txt = (TextView) findViewById(R.id.terms_txt);
+        privacy_txt = (TextView) findViewById(R.id.privacy_txt);
+        register_txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent register = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(register);
+            }
+        });
+        recover_txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent recover = new Intent(LoginActivity.this, RecoverPassActivity.class);
+                startActivity(recover);
+            }
+        });
+        terms_txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent terms = new Intent(LoginActivity.this, TermsActivity.class);
+                startActivity(terms);
+            }
+        });
+        privacy_txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent privacy = new Intent(LoginActivity.this, PrivacyActivity.class);
+                startActivity(privacy);
+            }
+        });
     }
 
     @Override
@@ -184,16 +229,24 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(validate_form()){
-                    new TaskLogin().execute(email_txt.getText().toString(),password_txt.getText().toString());
+                    new TaskLogin(mProgressDialog,LoginActivity.this).execute(email_txt.getText().toString(),password_txt.getText().toString());
                 }
             }
         });
     }
 
     public class TaskLogin extends AsyncTask<String, Void, Integer> {
+
+        ProgressDialog progressDialog;
+        LoginActivity activity;
+        public TaskLogin(ProgressDialog mProgressDialog, LoginActivity act){
+            this.progressDialog = mProgressDialog;
+            this.activity = act;
+        }
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog.show();
         }
 
         @Override
@@ -206,7 +259,7 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 jObjResult = m_ServiceAccess.convertJSONString2Obj(m_ServiceAccess.getJSONStringWithParam_GET(Constants.ENDPOINT_URL+Constants.AUTH_SERVICE,param));
                 if(jObjResult.getBoolean("error")){
-                    Log.d("LOGIN","ERROR");
+                    //Log.d("LOGIN","ERROR");
                     return Constants.ENDPOINT_ERROR;
                 }
                 userId = jObjResult.getJSONObject("citizen").getInt("id");
@@ -223,6 +276,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
+            progressDialog.dismiss();
             if(result == Constants.ENDPOINT_ERROR){
                 try {
                     String message = jObjResult.getString("message");
@@ -270,7 +324,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 AccessToken accessToken = loginResult.getAccessToken();
-                Log.d("TOKEN2", accessToken.getToken());
+                //Log.d("TOKEN2", accessToken.getToken());
                 profile = Profile.getCurrentProfile();
                 //fbId = profile.getId();
                 //fbFullname = profile.getName();
@@ -305,8 +359,8 @@ public class LoginActivity extends AppCompatActivity {
                 t.start();
                 try {
                     t.join();
-                    Log.d("TEST","Entering TaskLogin");
-                    new TaskFbLogin().execute(fbId,fbFullname,fbEmail,accessToken.getToken(),fbGender);
+                    //Log.d("TEST","Entering TaskLogin");
+                    new TaskFbLogin(mProgressDialog,LoginActivity.this).execute(fbId,fbFullname,fbEmail,accessToken.getToken(),fbGender);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -327,9 +381,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public class TaskFbLogin extends AsyncTask<String, Void, Integer> {
+        ProgressDialog progressDialog;
+        LoginActivity activity;
+        public TaskFbLogin(ProgressDialog mProgressDialog, LoginActivity act){
+            this.progressDialog = mProgressDialog;
+            this.activity = act;
+        }
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog.show();
         }
 
         @Override
@@ -359,6 +420,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
+            progressDialog.dismiss();
             if(result == Constants.ENDPOINT_ERROR){
                 try {
                     String message = jObjResult.getString("message");

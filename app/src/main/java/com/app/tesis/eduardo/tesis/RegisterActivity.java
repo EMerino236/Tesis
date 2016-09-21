@@ -45,6 +45,8 @@ public class RegisterActivity extends AppCompatActivity {
     String fullname;
     String email;
     Boolean post_as_anonymous;
+    TextView terms_txt;
+    TextView privacy_txt;
     // Webservices
     private AccessServiceAPI m_ServiceAccess;
 
@@ -62,6 +64,26 @@ public class RegisterActivity extends AppCompatActivity {
         repeat_password_error_lbl = (TextView) findViewById(R.id.repeat_password_error_lbl);
         m_ServiceAccess = new AccessServiceAPI();
         setRegisterButton();
+        setTextButtons();
+    }
+
+    public void setTextButtons(){
+        terms_txt = (TextView) findViewById(R.id.terms_txt);
+        privacy_txt = (TextView) findViewById(R.id.privacy_txt);
+        terms_txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent terms = new Intent(RegisterActivity.this, TermsActivity.class);
+                startActivity(terms);
+            }
+        });
+        privacy_txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent privacy = new Intent(RegisterActivity.this, PrivacyActivity.class);
+                startActivity(privacy);
+            }
+        });
     }
 
     @Override

@@ -10,7 +10,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="5dp"
             android:orientation="vertical">
 
@@ -42,8 +42,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:text="@string/label_historical_events_divider"
                     android:textColor="#FFFFFF"/>
 
@@ -51,7 +51,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_toStartOf="@id/divider_text"
                     android:layout_toLeftOf="@id/divider_text"
                     android:background="@android:color/background_light"
                     />
@@ -60,7 +62,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
+                    android:layout_toEndOf="@id/divider_text"
                     android:layout_toRightOf="@id/divider_text"
                     android:background="@android:color/background_light"
                     />
@@ -74,6 +78,22 @@
                 android:orientation="vertical">
 
             </LinearLayout>
+
+            <Button android:id="@+id/button_add_historical_event"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:drawableStart="@android:drawable/ic_menu_add"
+                android:drawableLeft="@android:drawable/ic_menu_add"
+                android:background="@drawable/button_map"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                style="@style/button_text"
+                android:text="@string/button_add_historical_event"/>
 
         </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.app.tesis.eduardo.tesis;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,12 +37,19 @@ import java.util.Map;
  * Created by Eduardo on 24/07/2016.
  */
 public class PointActivity extends AppCompatActivity {
-    private Bundle inBundle;
     private ImageView pointImage;
     private TextView pointName;
     private TextView pointReview;
     private LinearLayout historicalEventsContainer;
+    private Button buttonAddHistoricalEvent;
     Map<String, Boolean> chronology;
+    private Bundle inBundle;
+    Integer userId;
+    String fbId;
+    String fbFullname;
+    String fbEmail;
+    String login_method;
+    Boolean post_as_anonymous;
     // Webservices
     private AccessServiceAPI m_ServiceAccess;
     private Long pointId;
@@ -55,12 +64,48 @@ public class PointActivity extends AppCompatActivity {
         pointName = (TextView) findViewById(R.id.point_name);
         pointReview = (TextView) findViewById(R.id.point_review);
         historicalEventsContainer = (LinearLayout) findViewById(R.id.historical_events_container);
+        setProfileData();
+        // Set add historical event button
+        setAddHistoricalEventButton();
         m_ServiceAccess = new AccessServiceAPI();
-        inBundle = getIntent().getExtras();
-        pointId = (Long) inBundle.get("pointId");
         chronology = new HashMap<>();
         setChronology();
         new TaskGetPoint().execute();
+    }
+
+    public void setProfileData(){
+        // Get profile
+        inBundle = getIntent().getExtras();
+        pointId = (Long) inBundle.get("pointId");
+        //profile = (Profile) inBundle.get("profile");
+        login_method = (String) inBundle.get("login_method");
+        if(login_method.equals("fb")){
+            fbId = (String) inBundle.get("fbId");
+        }
+        userId = (Integer) inBundle.get("userId");
+        fbFullname = (String) inBundle.get("fullname");
+        fbEmail = (String) inBundle.get("email");
+        post_as_anonymous = (Boolean) inBundle.get("post_as_anonymous");
+    }
+
+    public void setAddHistoricalEventButton(){
+        buttonAddHistoricalEvent = (Button)findViewById(R.id.button_add_historical_event);
+        buttonAddHistoricalEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent testimony = new Intent(PointActivity.this, TestimonyActivity.class);
+                testimony.putExtra("login_method",login_method);
+                if(login_method.equals("fb")) {
+                    testimony.putExtra("fbId", fbId);
+                }
+                testimony.putExtra("pointId",pointId);
+                testimony.putExtra("userId",userId);
+                testimony.putExtra("fullname",fbFullname);
+                testimony.putExtra("email",fbEmail);
+                testimony.putExtra("post_as_anonymous",post_as_anonymous);
+                startActivity(testimony);
+            }
+        });
     }
 
     public void setChronology(){
@@ -114,9 +159,9 @@ public class PointActivity extends AppCompatActivity {
                     for (int i = 0; i < length; i++) {
                         // Historical Event container
                         LinearLayout historicalEventContainer = new LinearLayout(getApplicationContext());
-                        historicalEventContainer.setOrientation(LinearLayout.HORIZONTAL);
+                        //historicalEventContainer.setOrientation(LinearLayout.HORIZONTAL);
                         //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-                        //layoutParams.setMargins(0,0,0,20);
+                        //layoutParams.setMargins(0,0,10,0);
                         //historicalEventContainer.setLayoutParams(layoutParams);
                         // Date container
                         LinearLayout dateContainer = new LinearLayout(getApplicationContext());
@@ -146,7 +191,15 @@ public class PointActivity extends AppCompatActivity {
                         title.setText(historicalEvents.getJSONObject(i).getString("title"));
                         title.setTextSize(11);
                         historicalEventContainer.addView(title);
-                        historicalEventContainer.setPadding(20, 0, 20, 0);
+                        // Arrow
+                        ImageView arrow = new ImageView(getApplicationContext());
+                        arrow.setImageResource(R.drawable.arrow_right);
+                        LinearLayout.LayoutParams arrowParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                        arrowParams.gravity = Gravity.RIGHT;
+                        arrow.setLayoutParams(arrowParams);
+                        // Add elements to the container
+                        historicalEventContainer.addView(arrow);
+                        historicalEventContainer.setPadding(20, 20, 20, 20);
                         final int finalI = i;
                         historicalEventContainer.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -252,7 +305,12 @@ public class PointActivity extends AppCompatActivity {
                                 }
                                 break;
                         }
+                        // Divider
+                        View divider = new View(getApplicationContext());
+                        divider.setBackgroundColor(Color.GRAY);
+                        divider.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 4));
                         historicalEventsContainer.addView(historicalEventContainer);
+                        historicalEventsContainer.addView(divider);
                     }
                 }else{
                     TextView emptyResults = new TextView(getApplicationContext());

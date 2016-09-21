@@ -140,7 +140,7 @@ public class AudioFragment extends Fragment {
                         }
                     }else{
                         TextView emptyResults = new TextView(getContext());
-                        emptyResults.setText(R.string.photos_empty_result);
+                        emptyResults.setText(R.string.audios_empty_result);
                         emptyResults.setGravity(Gravity.CENTER);
                         audiosContainer.addView(emptyResults);
                     }

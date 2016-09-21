@@ -8,6 +8,7 @@
     <string name="my_account_title">Mi Cuenta</string>
     <string name="camera_title">Realidad Aumentada</string>
     <string name="point_title">Punto de Interés</string>
+    <string name="testimony_title">Agregue un Nuevo Evento Histórico</string>
     <string name="historical_event_title">Evento Histórico</string>
     <string name="register_title">Registrarse</string>
     <string name="recover_pass_title">Recuperar Contraseña</string>
@@ -21,14 +22,17 @@
     <string name="button_login">Iniciar Sesión</string>
     <string name="button_register">Registrarse</string>
     <string name="button_recover">Recuperar Contraseña</string>
+    <string name="button_add">Agregar</string>
     <string name="button_play">Reproducir</string>
     <string name="button_playing">Detener Reproducción</string>
     <!-- MAIN ACTIVITY LABELS -->
     <string name="default_user_fullname">Anónimo</string>
     <string name="button_map">Mostrar Mapa</string>
     <string name="button_camera">Activar Realidad Aumentada</string>
+    <string name="button_camera_small">Activar RA</string>
     <string name="button_my_account">Mi cuenta</string>
     <string name="button_logout">Cerrar Sesión</string>
+    <string name="button_add_historical_event">Agregar Evento Histórico</string>
     <!-- LOGOUT MENU LABELS -->
     <string name="logout_menu_login">Iniciar Sesión</string>
     <string name="logout_menu_register">Registrarse</string>
@@ -36,6 +40,8 @@
     <string name="logout_menu_terms">Términos y Condiciones</string>
     <string name="logout_menu_privacy">Políticas de Privacidad</string>
     <!-- MY ACCOUNT LABELS -->
+    <string name="label_title">Título</string>
+    <string name="label_description">Descripción</string>
     <string name="label_user_fullname">Nombre Completo</string>
     <string name="label_email">E-mail</string>
     <string name="label_repeat_email">Repetir E-mail</string>
@@ -44,6 +50,10 @@
     <string name="label_new_password">Nueva Contraseña</string>
     <string name="label_repeat_new_password">Repetir Nueva Contraseña</string>
     <string name="label_post_as_anonymous">Publicar como anónimo</string>
+    <string name="label_day">Día</string>
+    <string name="label_month">Mes</string>
+    <string name="label_year">Año</string>
+    <string name="label_period">Período</string>
     <string name="label_date">Fecha</string>
     <string name="label_review">Reseña</string>
     <string name="label_historical_events_divider">Eventos Históricos</string>
@@ -51,7 +61,15 @@
     <string name="default_email">No existe el e-mail</string>
     <string name="switch_text_on">Publicar como anónimo</string>
     <string name="switch_text_off">Publicar con mi nombre</string>
-    <string name="accept_terms_privacy_txt">Al iniciar sesión o registrarme acepto los Términos y Condiciones y las Políticas de Privacidad.</string>
+    <string name="accept_terms_privacy_txt">Al iniciar sesión o registrarme acepto lo siguiente:</string>
+    <string name="progress_dialog_title">Procesando</string>
+    <string name="progress_dialog_points_message">Obteniendo ubicaciones geográficas…</string>
+    <string name="progress_dialog_user_message">Obteniendo información del usuario…</string>
+    <string name="augmented_reality_radius">Radio de visión de la realidad aumentada</string>
+    <string-array name="periods_array">
+        <item>A.C.</item>
+        <item>D.C.</item>
+    </string-array>
     <!-- MESSAGES -->
     <string name="service_connection_error">No se pudo conectar con el servidor, algunas funcionalidades pueden no estar disponibles.</string>
     <string name="register_error">Ocurrió un problema al registrar el usuario, inténtelo de nuevo más tarde.</string>
@@ -63,8 +81,10 @@
     <string name="menu_same_section">Ya se encuentra en esta seccion.</string>
     <string name="my_account_edit_success">Se guardaron correctamente los cambios.</string>
     <string name="historical_events_empty_result">No se encontraron eventos históricos registrados.</string>
-    <string name="photos_empty_result">No se encontraron fotos registrados.</string>
+    <string name="photos_empty_result">No se encontraron fotos registradas.</string>
     <string name="audios_empty_result">No se encontraron audios registrados.</string>
+    <string name="gps_not_enabled">El GPS no se encuentra habilitado.</string>
+    <string name="device_not_supported">Este dispositivo no es compatible.</string>
     <!-- ERRORS -->
     <string name="required_field">Este campo es requerido</string>
     <string name="repeat_password_mismatch">Las contraseñas no coinciden</string>

@@ -1,13 +1,17 @@
 package com.app.tesis.eduardo.tesis;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.app.tesis.eduardo.tesis.services.AccessServiceAPI;
@@ -23,6 +27,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -41,12 +47,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LocationRequest mLocationRequest;
     private GoogleApiClient mGoogleApiClient;
     LatLng latLng;
-    Marker currLocationMarker;
     private GoogleMap mMap;
+    private Circle visionCircle;
+    private Marker locationMarker;
     ProgressDialog mProgressDialog;
+    private Bundle inBundle;
+    Integer userId;
+    String fbId;
+    String fbFullname;
+    String fbEmail;
+    String login_method;
+    Boolean post_as_anonymous;
     // Webservices
     private AccessServiceAPI m_ServiceAccess;
     JSONArray points;
+    private Button buttonCamera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +69,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         m_ServiceAccess = new AccessServiceAPI();
         mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setMessage("Obteniendo ubicaciones geograficas...");
-        mProgressDialog.setTitle("Procesando");
+        mProgressDialog.setMessage(getString(R.string.progress_dialog_points_message));
+        mProgressDialog.setTitle(R.string.progress_dialog_title);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        // Set the profile data
+        setProfileData();
+        // Set camera button
+        setCameraButton();
     }
 
+    public void setProfileData(){
+        // Get profile
+        inBundle = getIntent().getExtras();
+        //profile = (Profile) inBundle.get("profile");
+        login_method = (String) inBundle.get("login_method");
+        if(login_method.equals("fb")){
+            fbId = (String) inBundle.get("fbId");
+        }
+        userId = (Integer) inBundle.get("userId");
+        fbFullname = (String) inBundle.get("fullname");
+        fbEmail = (String) inBundle.get("email");
+        post_as_anonymous = (Boolean) inBundle.get("post_as_anonymous");
+    }
 
     /**
      * Manipulates the map once available.
@@ -84,10 +116,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        mMap.setMyLocationEnabled(true);
+        mMap.setMyLocationEnabled(false);
         mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
         buildGoogleApiClient();
         mGoogleApiClient.connect();
         /*
@@ -123,6 +154,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             latLng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
             latitude = mLastLocation.getLatitude();
             longitude = mLastLocation.getLongitude();
+            visionCircle = mMap.addCircle(new CircleOptions()
+                    .center(latLng)
+                    .radius(100)
+                    .strokeWidth(2)
+                    .strokeColor(Color.BLUE)
+                    .fillColor(Color.argb(60, 157, 228, 239))
+                    .clickable(true));
+            /*
+            locationCircle = mMap.addCircle(new CircleOptions()
+                    .center(latLng)
+                    .radius(6)
+                    .strokeWidth(0)
+                    .strokeColor(Color.BLUE)
+                    .fillColor(Color.BLUE));
+            */
+            locationMarker = mMap.addMarker(new MarkerOptions().position(latLng).title(getString(R.string.current_position)).icon(BitmapDescriptorFactory.fromResource(R.drawable.marker_user_location)));
+            mMap.setOnCircleClickListener(new GoogleMap.OnCircleClickListener() {
+                @Override
+                public void onCircleClick(Circle circle) {
+                    Toast.makeText(getApplicationContext(),R.string.augmented_reality_radius,Toast.LENGTH_LONG).show();
+                }
+            });
             /*
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);
@@ -169,6 +222,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         latLng = new LatLng(location.getLatitude(), location.getLongitude());
         latitude = location.getLatitude();
         longitude = location.getLongitude();
+        visionCircle.setCenter(latLng);
+        locationMarker.setPosition(latLng);
+        //locationCircle.setCenter(latLng);
         /*
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
@@ -179,16 +235,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Toast.makeText(this,"Location Changed",Toast.LENGTH_SHORT).show();
 
         //zoom to current position:
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(15).build();
+        //CameraPosition cameraPosition = new CameraPosition.Builder().target(latLng).zoom(15).build();
 
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        //mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
         //If you only need one location, unregister the listener
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        //LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
 
     }
 
     public void getPoints(){
+        Log.d("GETU","getPoints()");
         Double latitudeUpperBound = latitude + 0.01;
         Double latitudeLowerBound = latitude - 0.01;
         Double longitudeUpperBound = longitude + 0.01;
@@ -249,7 +306,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 int length = points.length();
                 try {
                     for (int i = 0; i < length; i++) {
-                        mMap.addMarker(new MarkerOptions().position(new LatLng(points.getJSONObject(i).getDouble("latitude"), points.getJSONObject(i).getDouble("longitude"))).title(points.getJSONObject(i).getString("name")));
+                        MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(points.getJSONObject(i).getDouble("latitude"), points.getJSONObject(i).getDouble("longitude"))).title(points.getJSONObject(i).getString("name"));
+                        switch(points.getJSONObject(i).getInt("point_type_id")){
+                            case 1:
+                                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.casona));
+                                break;
+                            case 2:
+                                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.edificio));
+                                break;
+                            case 3:
+                                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.huaca));
+                                break;
+                            case 4:
+                                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.iglesia));
+                                break;
+                            case 5:
+                                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.monumento));
+                                break;
+                            case 6:
+                                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.plaza));
+                                break;
+                        }
+                        mMap.addMarker(markerOptions);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -257,5 +336,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
             progressDialog.dismiss();
         }
+    }
+
+    public void setCameraButton(){
+        buttonCamera = (Button)findViewById(R.id.button_camera);
+        buttonCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent camera = new Intent(MapsActivity.this, CameraActivity.class);
+                camera.putExtra("login_method",login_method);
+                if(login_method.equals("fb")) {
+                    camera.putExtra("fbId", fbId);
+                }
+                camera.putExtra("userId",userId);
+                camera.putExtra("fullname",fbFullname);
+                camera.putExtra("email",fbEmail);
+                camera.putExtra("post_as_anonymous",post_as_anonymous);
+                startActivity(camera);
+            }
+        });
     }
 }

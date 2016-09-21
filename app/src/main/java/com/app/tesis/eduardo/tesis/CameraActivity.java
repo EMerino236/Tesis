@@ -4,14 +4,14 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Camera;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.tesis.eduardo.tesis.services.AccessServiceAPI;
@@ -48,6 +48,13 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
     double longitude;
     World world;
     ProgressDialog mProgressDialog;
+    private Bundle inBundle;
+    Integer userId;
+    String fbId;
+    String fbFullname;
+    String fbEmail;
+    String login_method;
+    Boolean post_as_anonymous;
     /* Google services */
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     private Location mLastLocation;
@@ -56,6 +63,7 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
     // boolean flag to toggle periodic location updates
     private boolean mRequestingLocationUpdates = false;
     private LocationRequest mLocationRequest;
+    private LocationManager mLocationManager;
     // Location updates intervals in sec
     private static int UPDATE_INTERVAL = 500; // 0.5 sec
     private static int FATEST_INTERVAL = 100; // 0.1 sec
@@ -68,15 +76,26 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        // Beyondar World
         world = new World(getApplicationContext());
 
+        // Webservice
         m_ServiceAccess = new AccessServiceAPI();
         mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setMessage("Obteniendo ubicaciones geograficas...");
-        mProgressDialog.setTitle("Procesando");
-        /*---*/
+        mProgressDialog.setMessage(getString(R.string.progress_dialog_points_message));
+        mProgressDialog.setTitle(R.string.progress_dialog_title);
+        // Location manager
+        mLocationManager = (LocationManager) getSystemService( getApplicationContext().LOCATION_SERVICE );
+        // Lets check if the GPS is enabled
+        if(!mLocationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+            Toast.makeText(getApplicationContext(), R.string.gps_not_enabled, Toast.LENGTH_LONG).show();
+            finish();
+        }
+        // Set the profile data
+        setProfileData();
         // First we need to check availability of play services
         if (checkPlayServices()) {
+
             // Building the GoogleApi client
             buildGoogleApiClient();
 
@@ -86,11 +105,24 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
 
             togglePeriodicLocationUpdates();
         }
-        /*---*/
         mBeyondarFragment = (BeyondarFragmentSupport) getSupportFragmentManager().findFragmentById(R.id.beyondarFragment);
-
+        //mBeyondarFragment.getCameraView().setRotation(90);
         // User position (you can change it using the GPS listeners form Android API)
         world.setDefaultBitmap(R.drawable.marker_icon, 0);
+    }
+
+    public void setProfileData(){
+        // Get profile
+        inBundle = getIntent().getExtras();
+        //profile = (Profile) inBundle.get("profile");
+        login_method = (String) inBundle.get("login_method");
+        if(login_method.equals("fb")){
+            fbId = (String) inBundle.get("fbId");
+        }
+        userId = (Integer) inBundle.get("userId");
+        fbFullname = (String) inBundle.get("fullname");
+        fbEmail = (String) inBundle.get("email");
+        post_as_anonymous = (Boolean) inBundle.get("post_as_anonymous");
     }
 
     /**
@@ -102,7 +134,7 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
                 GooglePlayServicesUtil.getErrorDialog(resultCode, this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
-                Toast.makeText(getApplicationContext(), "This device is not supported.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.device_not_supported, Toast.LENGTH_LONG).show();
                 finish();
             }
             return false;
@@ -153,7 +185,6 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
                 getPoints();
                 hasPoints = true;
             }
-
         }
 
     }
@@ -212,7 +243,6 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
     @Override
     protected void onResume() {
         super.onResume();
-
         checkPlayServices();
 
         // Resuming the periodic location updates
@@ -240,7 +270,7 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
      */
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        Log.i("CAMERA-ACTIVITY", "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
+        //Log.i("CAMERA-ACTIVITY", "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
     }
 
     @Override
@@ -269,9 +299,16 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
     @Override
     public void onClickBeyondarObject(ArrayList<BeyondarObject> arrayList) {
         // The first element in the array belongs to the closest BeyondarObject
-        //Toast.makeText(this, "Clicked on: " + arrayList.get(0).getName(), Toast.LENGTH_LONG).show();
         Intent point = new Intent(CameraActivity.this, PointActivity.class);
         point.putExtra("pointId",arrayList.get(0).getId());
+        point.putExtra("login_method",login_method);
+        if(login_method.equals("fb")) {
+            point.putExtra("fbId", fbId);
+        }
+        point.putExtra("userId",userId);
+        point.putExtra("fullname",fbFullname);
+        point.putExtra("email",fbEmail);
+        point.putExtra("post_as_anonymous",post_as_anonymous);
         startActivity(point);
     }
 
@@ -318,7 +355,29 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
                     Log.d("ITERATOR",jsonArray.getJSONObject(i).getString("name"));
                     GeoObject go = new GeoObject(jsonArray.getJSONObject(i).getInt("id"));
                     go.setGeoPosition(jsonArray.getJSONObject(i).getDouble("latitude"), jsonArray.getJSONObject(i).getDouble("longitude"));
-                    go.setImageResource(R.drawable.marker_icon);
+                    switch(jsonArray.getJSONObject(i).getInt("point_type_id")){
+                        case 1:
+                            go.setImageResource(R.drawable.casona);
+                            break;
+                        case 2:
+                            go.setImageResource(R.drawable.edificio);
+                            break;
+                        case 3:
+                            go.setImageResource(R.drawable.huaca);
+                            break;
+                        case 4:
+                            go.setImageResource(R.drawable.iglesia);
+                            break;
+                        case 5:
+                            go.setImageResource(R.drawable.monumento);
+                            break;
+                        case 6:
+                            go.setImageResource(R.drawable.plaza);
+                            break;
+                        default:
+                            go.setImageResource(R.drawable.marker_icon);
+                            break;
+                    }
                     go.setName(jsonArray.getJSONObject(i).getString("name"));
                     world.addBeyondarObject(go);
                 }

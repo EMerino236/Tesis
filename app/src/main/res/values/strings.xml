@@ -7,6 +7,7 @@
     <string name="my_account_title">My Account</string>
     <string name="camera_title">Augmented Reality</string>
     <string name="point_title">Point</string>
+    <string name="testimony_title">Add New Historical Event</string>
     <string name="historical_event_title">Historical Event</string>
     <string name="register_title">Register Account</string>
     <string name="recover_pass_title">Recover Password</string>
@@ -20,14 +21,17 @@
     <string name="button_login">Log In</string>
     <string name="button_register">Register</string>
     <string name="button_recover">Recover Password</string>
+    <string name="button_add">Add</string>
     <string name="button_play">Play</string>
     <string name="button_playing">Stop Playing</string>
     <!-- MAIN ACTIVITY LABELS -->
     <string name="default_user_fullname">Anonimous</string>
     <string name="button_map">Show Map</string>
     <string name="button_camera">Activate Augmented Reality</string>
+    <string name="button_camera_small">Activate AR</string>
     <string name="button_my_account">My Account</string>
     <string name="button_logout">Log Out</string>
+    <string name="button_add_historical_event">Add Historical Event</string>
     <!-- LOGOUT MENU LABELS -->
     <string name="logout_menu_login">Login</string>
     <string name="logout_menu_register">Register</string>
@@ -35,6 +39,8 @@
     <string name="logout_menu_terms">Terms And Conditions</string>
     <string name="logout_menu_privacy">Privacy Politics</string>
     <!-- MY ACCOUNT LABELS -->
+    <string name="label_title">Title</string>
+    <string name="label_description">Descripción</string>
     <string name="label_user_fullname">Fullname</string>
     <string name="label_email">E-mail</string>
     <string name="label_repeat_email">Repeat E-mail</string>
@@ -43,6 +49,10 @@
     <string name="label_new_password">New Password</string>
     <string name="label_repeat_new_password">Repeat New Password</string>
     <string name="label_post_as_anonymous">Post as anonymous</string>
+    <string name="label_day">Day</string>
+    <string name="label_month">Month</string>
+    <string name="label_year">Year</string>
+    <string name="label_period">Period</string>
     <string name="label_date">Date</string>
     <string name="label_review">Review</string>
     <string name="label_historical_events_divider">Historical Events</string>
@@ -50,7 +60,15 @@
     <string name="default_email">No email registered</string>
     <string name="switch_text_on">Post as anonymous</string>
     <string name="switch_text_off">Post as myself</string>
-    <string name="accept_terms_privacy_txt">On login or register I am accepting the Terms and Conditions And the Privacy Policies.</string>
+    <string name="accept_terms_privacy_txt">On login or register I am accepting the following:</string>
+    <string name="progress_dialog_title">Processing</string>
+    <string name="progress_dialog_points_message">Getting geographic locations…</string>
+    <string name="progress_dialog_user_message">Getting user information…</string>
+    <string name="augmented_reality_radius">Radio vision of augmented reality</string>
+    <string-array name="periods_array">
+        <item>A.C.</item>
+        <item>D.C.</item>
+    </string-array>
     <!-- MESSAGES -->
     <string name="service_connection_error">There was an error while connecting to the servers, some features may not be available.</string>
     <string name="register_error">There was an error while registering the new user, try again later.</string>
@@ -64,6 +82,8 @@
     <string name="historical_events_empty_result">No historical events registered yet.</string>
     <string name="photos_empty_result">No photos registered yet.</string>
     <string name="audios_empty_result">No audios registered yet.</string>
+    <string name="gps_not_enabled">GPS not enabled.</string>
+    <string name="device_not_supported">This device is not supported.</string>
     <!-- ERRORS -->
     <string name="required_field">This field is required</string>
     <string name="repeat_password_mismatch">Password mismatch</string>

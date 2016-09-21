@@ -9,7 +9,7 @@
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/name_lbl"
@@ -145,6 +145,28 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"/>
+
+            <TextView
+                android:id="@+id/terms_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/accept_terms_privacy_txt"
+                android:text="@string/tc_title"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:textColor="#FFFFFF"/>
+
+            <TextView
+                android:id="@+id/privacy_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/terms_txt"
+                android:text="@string/pp_title"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:textColor="#FFFFFF"/>
 
         </RelativeLayout>
 
