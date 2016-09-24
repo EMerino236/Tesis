@@ -55,6 +55,7 @@
     <string name="label_period">Period</string>
     <string name="label_date">Date</string>
     <string name="label_review">Review</string>
+    <string name="label_file">Choose a file</string>
     <string name="label_historical_events_divider">Historical Events</string>
     <string name="label_login_divider">Or</string>
     <string name="default_email">No email registered</string>
@@ -64,17 +65,35 @@
     <string name="progress_dialog_title">Processing</string>
     <string name="progress_dialog_points_message">Getting geographic locations…</string>
     <string name="progress_dialog_user_message">Getting user information…</string>
+    <string name="progress_dialog_uploading">Uploading information…</string>
     <string name="augmented_reality_radius">Radio vision of augmented reality</string>
     <string-array name="periods_array">
         <item>A.C.</item>
         <item>D.C.</item>
     </string-array>
+    <string-array name="months_array">
+        <item>Select a month</item>
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
     <!-- MESSAGES -->
     <string name="service_connection_error">There was an error while connecting to the servers, some features may not be available.</string>
     <string name="register_error">There was an error while registering the new user, try again later.</string>
     <string name="recover_error">There was an error while recovering the password, try again later.</string>
+    <string name="add_error">There was an error while storing the information, try again later.</string>
     <string name="register_success">Registration success, you were logged in.</string>
     <string name="recover_success">We have sent instructions to the e-mail entered.</string>
+    <string name="add_success">The information was stored successfully and will pass review before they can be displayed.</string>
     <string name="facebook_login_cancelled">Login cancelled.</string>
     <string name="facebook_login_exception">There was an error while connecting to Facebook.</string>
     <string name="menu_same_section">You are in the current selection.</string>
@@ -84,11 +103,15 @@
     <string name="audios_empty_result">No audios registered yet.</string>
     <string name="gps_not_enabled">GPS not enabled.</string>
     <string name="device_not_supported">This device is not supported.</string>
+    <string name="no_file_selected">No file selected.</string>
     <!-- ERRORS -->
     <string name="required_field">This field is required</string>
     <string name="repeat_password_mismatch">Password mismatch</string>
     <string name="repeat_email_mismatch">Email mismatch</string>
     <string name="email_patterns_mismatch">This is not a valid e-mail</string>
+    <string name="no_month_selected">No month selected</string>
+    <string name="number_required">Number required</string>
+    <string name="day_out_of_range">Day out of range</string>
     <!-- TERMS AND CONDITIONS -->
     <string name="tc_p0">A continuación se describen los términos y condiciones, los cuales regularán el acceso y uso de la aplicación móvil.</string>
     <string name="tc_h1">Normas generales de uso de la aplicación móvil</string>

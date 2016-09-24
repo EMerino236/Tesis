@@ -41,7 +41,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"/>
 
-    <TextView
+    <WebView
         android:id="@+id/he_review_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -98,10 +100,30 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void setTextButtons(){
+        String registerTitle = new String(getString(R.string.register_title));
+        SpannableString contentRegister = new SpannableString(registerTitle);
+        contentRegister.setSpan(new UnderlineSpan(), 0, registerTitle.length(), 0);
         register_txt = (TextView) findViewById(R.id.register_txt);
+        register_txt.setText(contentRegister);
+
+        String recoverTitle = new String(getString(R.string.recover_pass_title));
+        SpannableString contentRecover = new SpannableString(recoverTitle);
+        contentRecover.setSpan(new UnderlineSpan(), 0, recoverTitle.length(), 0);
         recover_txt = (TextView) findViewById(R.id.recover_txt);
+        recover_txt.setText(contentRecover);
+
+        String termsTitle = new String(getString(R.string.tc_title));
+        SpannableString contentTerms = new SpannableString(termsTitle);
+        contentTerms.setSpan(new UnderlineSpan(), 0, termsTitle.length(), 0);
         terms_txt = (TextView) findViewById(R.id.terms_txt);
+        terms_txt.setText(contentTerms);
+
+        String privacyTitle = new String(getString(R.string.pp_title));
+        SpannableString contentPrivacy = new SpannableString(privacyTitle);
+        contentPrivacy.setSpan(new UnderlineSpan(), 0, privacyTitle.length(), 0);
         privacy_txt = (TextView) findViewById(R.id.privacy_txt);
+        privacy_txt.setText(contentPrivacy);
+
         register_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

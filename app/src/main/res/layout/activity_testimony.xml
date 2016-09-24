@@ -28,7 +28,7 @@
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:inputType="textPersonName"
-                android:maxLength="512"/>
+                android:maxLength="128"/>
 
             <TextView
                 android:id="@+id/title_error_lbl"
@@ -40,30 +40,30 @@
                 android:textColor="@android:color/holo_red_light"/>
 
             <TextView
-                android:id="@+id/review_lbl"
+                android:id="@+id/description_lbl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/label_review"
+                android:text="@string/label_description"
                 android:layout_below="@+id/title_error_lbl"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp" />
 
             <EditText
-                android:id="@+id/review_txt"
+                android:id="@+id/description_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/review_lbl"
+                android:layout_below="@+id/description_lbl"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
-                android:maxLength="128"
+                android:maxLength="512"
                 android:inputType="textMultiLine"/>
 
             <TextView
-                android:id="@+id/review_error_lbl"
+                android:id="@+id/description_error_lbl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/review_txt"
+                android:layout_below="@+id/description_txt"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:textColor="@android:color/holo_red_light"/>
@@ -73,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_below="@+id/review_error_lbl"
+                android:layout_below="@+id/description_error_lbl"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp">
@@ -121,16 +121,14 @@
                     android:inputType="number"
                     android:maxLength="2"/>
 
-                <EditText
+                <Spinner
                     android:id="@+id/month_txt"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginLeft="15dp"
                     android:layout_gravity="end"
-                    android:inputType="number"
-                    android:maxLength="2" />
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
@@ -217,7 +215,7 @@
                     android:layout_marginRight="15dp"
                     android:layout_gravity="start"
                     android:inputType="number"
-                    android:maxLength="2"/>
+                    android:maxLength="4"/>
 
                 <Spinner
                     android:id="@+id/period_txt"
@@ -273,7 +271,7 @@
                 android:layout_marginRight="25dp"
                 android:drawableStart="@android:drawable/ic_menu_upload"
                 android:drawableLeft="@android:drawable/ic_menu_upload"
-                android:background="@drawable/button_map"
+                android:background="@drawable/button_green"
                 style="@style/button_text" />
 
         </RelativeLayout>

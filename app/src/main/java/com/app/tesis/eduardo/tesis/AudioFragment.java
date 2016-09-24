@@ -38,6 +38,7 @@ public class AudioFragment extends Fragment {
     int audiosLength;
     MediaPlayer mPlayerList[];
     Button playButtonList[];
+    Integer userId;
     // Webservices
     private AccessServiceAPI m_ServiceAccess;
 
@@ -45,6 +46,7 @@ public class AudioFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         historicalEventId = getArguments().getString("historicalEventId");
+        userId = getArguments().getInt("userId");
         m_ServiceAccess = new AccessServiceAPI();
     }
 

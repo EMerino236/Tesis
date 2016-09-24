@@ -10,8 +10,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <ImageView
@@ -24,12 +23,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:textSize="14pt" />
+                android:textSize="14pt"
+                android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp" />
 
-            <TextView
+            <WebView
                 android:id="@+id/point_review"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -42,8 +49,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
                     android:text="@string/label_historical_events_divider"
                     android:textColor="#FFFFFF"/>
 
@@ -51,8 +58,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginLeft="25dp"
                     android:layout_toStartOf="@id/divider_text"
                     android:layout_toLeftOf="@id/divider_text"
                     android:background="@android:color/background_light"
@@ -62,8 +69,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginRight="25dp"
                     android:layout_toEndOf="@id/divider_text"
                     android:layout_toRightOf="@id/divider_text"
                     android:background="@android:color/background_light"
@@ -75,7 +82,11 @@
                 android:id="@+id/historical_events_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp">
 
             </LinearLayout>
 
@@ -88,10 +99,10 @@
                 android:drawableStart="@android:drawable/ic_menu_add"
                 android:drawableLeft="@android:drawable/ic_menu_add"
                 android:background="@drawable/button_map"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp"
                 style="@style/button_text"
                 android:text="@string/button_add_historical_event"/>
 

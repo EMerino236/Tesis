@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
@@ -13,7 +14,9 @@ import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,8 +42,9 @@ import java.util.Map;
 public class PointActivity extends AppCompatActivity {
     private ImageView pointImage;
     private TextView pointName;
-    private TextView pointReview;
+    private WebView pointReview;
     private LinearLayout historicalEventsContainer;
+    private LinearLayout heContainer;
     private Button buttonAddHistoricalEvent;
     Map<String, Boolean> chronology;
     private Bundle inBundle;
@@ -62,7 +66,7 @@ public class PointActivity extends AppCompatActivity {
         setContentView(R.layout.activity_point);
         pointImage = (ImageView) findViewById(R.id.point_image);
         pointName = (TextView) findViewById(R.id.point_name);
-        pointReview = (TextView) findViewById(R.id.point_review);
+        pointReview = (WebView) findViewById(R.id.point_review);
         historicalEventsContainer = (LinearLayout) findViewById(R.id.historical_events_container);
         setProfileData();
         // Set add historical event button
@@ -152,111 +156,41 @@ public class PointActivity extends AppCompatActivity {
             try {
                 Log.d("onPostExecute","asd");
                 pointName.setText(point.getString("name"));
-                pointReview.setText(point.getString("review"));
+                String htmlText = "<html lang=\"es\"><body style=\"text-align:justify;background-color:#303030;color:#c1c1c1\"> %s </body></Html>";
+                pointReview.loadData(String.format(htmlText, point.getString("review")),"text/html; charset=utf-8", "utf-8");
+                //pointReview.setText(point.getString("review"));
                 Picasso.with(getApplicationContext()).load(Constants.POINTS_DIRECTORY+point.getString("file_name")).into(pointImage);
                 int length = historicalEvents.length();
                 if(length>0) {
+                    // Begin the transaction
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                     for (int i = 0; i < length; i++) {
-                        // Historical Event container
-                        LinearLayout historicalEventContainer = new LinearLayout(getApplicationContext());
-                        //historicalEventContainer.setOrientation(LinearLayout.HORIZONTAL);
-                        //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT);
-                        //layoutParams.setMargins(0,0,10,0);
-                        //historicalEventContainer.setLayoutParams(layoutParams);
-                        // Date container
-                        LinearLayout dateContainer = new LinearLayout(getApplicationContext());
-                        dateContainer.setOrientation(LinearLayout.VERTICAL);
-                        // Build the date format
-                        TextView date = new TextView(getApplicationContext());
-                        String dateBuilder = "";
-                        if (historicalEvents.getJSONObject(i).getString("day").compareTo("null") != 0) {
-                            dateBuilder += historicalEvents.getJSONObject(i).getString("day") + "/";
-                        }
-                        if (historicalEvents.getJSONObject(i).getString("month").compareTo("null") != 0) {
-                            dateBuilder += historicalEvents.getJSONObject(i).getString("month") + "/";
-                        }
-                        if (historicalEvents.getJSONObject(i).getString("year").compareTo("null") != 0) {
-                            dateBuilder += historicalEvents.getJSONObject(i).getString("year");
-                        }
-                        date.setText(dateBuilder);
-                        TextView period = new TextView(getApplicationContext());
-                        period.setText(historicalEvents.getJSONObject(i).getString("period"));
-                        dateContainer.addView(date);
-                        dateContainer.addView(period);
-                        dateContainer.setPadding(0, 0, 20, 0);
-                        // Add the date container
-                        historicalEventContainer.addView(dateContainer);
-                        // Title container
-                        TextView title = new TextView(getApplicationContext());
-                        title.setText(historicalEvents.getJSONObject(i).getString("title"));
-                        title.setTextSize(11);
-                        historicalEventContainer.addView(title);
-                        // Arrow
-                        ImageView arrow = new ImageView(getApplicationContext());
-                        arrow.setImageResource(R.drawable.arrow_right);
-                        LinearLayout.LayoutParams arrowParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                        arrowParams.gravity = Gravity.RIGHT;
-                        arrow.setLayoutParams(arrowParams);
-                        // Add elements to the container
-                        historicalEventContainer.addView(arrow);
-                        historicalEventContainer.setPadding(20, 20, 20, 20);
-                        final int finalI = i;
-                        historicalEventContainer.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent historical_event = new Intent(PointActivity.this, HistoricalEventActivity.class);
-                                try {
-                                    historical_event.putExtra("historicalEventId", historicalEvents.getJSONObject(finalI).getString("id"));
-                                    startActivity(historical_event);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(PointActivity.this, R.string.service_connection_error, Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                        // This is for adding the period divider
-                        TextView periodDivider = new TextView(getApplicationContext());
                         Integer yearInt = Integer.parseInt(historicalEvents.getJSONObject(i).getString("year"));
+                        String chronologyStr = "null";
                         switch (historicalEvents.getJSONObject(i).getString("period")) {
                             case "D.C.":
                                 if (yearInt > 1400 && yearInt <= 1532) {
                                     if (!chronology.get("HORIZONTE_TARDIO")) {
                                         // If is first time on period
-                                        String periodString = new String("Horizonte Tardio");
-                                        SpannableString content = new SpannableString(periodString);
-                                        content.setSpan(new UnderlineSpan(), 0, periodString.length(), 0);
-                                        periodDivider.setText(content);
-                                        historicalEventsContainer.addView(periodDivider);
+                                        chronologyStr = "Horizonte Tardio";
                                     }
                                     chronology.put("HORIZONTE_TARDIO", true);
                                 } else if (yearInt > 1000 && yearInt <= 1400) {
                                     if (!chronology.get("PERIODO_INTERMEDIO_TARDIO")) {
                                         // If is first time on period
-                                        String periodString = new String("Periodo Intermedio Tardio");
-                                        SpannableString content = new SpannableString(periodString);
-                                        content.setSpan(new UnderlineSpan(), 0, periodString.length(), 0);
-                                        periodDivider.setText(content);
-                                        historicalEventsContainer.addView(periodDivider);
+                                        chronologyStr = "Periodo Intermedio Tardio";
                                     }
                                     chronology.put("PERIODO_INTERMEDIO_TARDIO", true);
                                 } else if (yearInt > 550 && yearInt <= 1000) {
                                     if (!chronology.get("HORIZONTE_MEDIO")) {
                                         // If is first time on period
-                                        String periodString = new String("Horizonte Medio");
-                                        SpannableString content = new SpannableString(periodString);
-                                        content.setSpan(new UnderlineSpan(), 0, periodString.length(), 0);
-                                        periodDivider.setText(content);
-                                        historicalEventsContainer.addView(periodDivider);
+                                        chronologyStr = "Horizonte Medio";
                                     }
                                     chronology.put("HORIZONTE_MEDIO", true);
                                 } else if (yearInt <= 550) {
                                     if (!chronology.get("PERIODO_INTERMEDIO_TEMPRANO")) {
                                         // If is first time on period
-                                        String periodString = new String("Periodo Intermedio Temprano");
-                                        SpannableString content = new SpannableString(periodString);
-                                        content.setSpan(new UnderlineSpan(), 0, periodString.length(), 0);
-                                        periodDivider.setText(content);
-                                        historicalEventsContainer.addView(periodDivider);
+                                        chronologyStr = "Periodo Intermedio Temprano";
                                     }
                                     chronology.put("PERIODO_INTERMEDIO_TEMPRANO", true);
                                 }
@@ -265,53 +199,44 @@ public class PointActivity extends AppCompatActivity {
                                 if (yearInt > 0 && yearInt <= 400) {
                                     if (!chronology.get("PERIODO_INTERMEDIO_TEMPRANO")) {
                                         // If is first time on period
-                                        String periodString = new String("Periodo Intermedio Temprano");
-                                        SpannableString content = new SpannableString(periodString);
-                                        content.setSpan(new UnderlineSpan(), 0, periodString.length(), 0);
-                                        periodDivider.setText(content);
-                                        historicalEventsContainer.addView(periodDivider);
+                                        chronologyStr = "Periodo Intermedio Temprano";
                                     }
                                     chronology.put("PERIODO_INTERMEDIO_TEMPRANO", true);
                                 } else if (yearInt > 400 && yearInt <= 1400) {
                                     if (!chronology.get("HORIZONTE_TEMPRANO")) {
                                         // If is first time on period
-                                        String periodString = new String("Horizonte Temprano");
-                                        SpannableString content = new SpannableString(periodString);
-                                        content.setSpan(new UnderlineSpan(), 0, periodString.length(), 0);
-                                        periodDivider.setText(content);
-                                        historicalEventsContainer.addView(periodDivider);
+                                        chronologyStr = "Horizonte Temprano";
                                     }
                                     chronology.put("HORIZONTE_TEMPRANO", true);
                                 } else if (yearInt > 1400 && yearInt <= 1800) {
                                     if (!chronology.get("PERIODO_INICIAL")) {
                                         // If is first time on period
-                                        String periodString = new String("Periodo Inicial");
-                                        SpannableString content = new SpannableString(periodString);
-                                        content.setSpan(new UnderlineSpan(), 0, periodString.length(), 0);
-                                        periodDivider.setText(content);
-                                        historicalEventsContainer.addView(periodDivider);
+                                        chronologyStr = "Periodo Inicial";
                                     }
                                     chronology.put("PERIODO_INICIAL", true);
                                 } else if (yearInt < 1800) {
                                     if (!chronology.get("PRECERAMICO")) {
                                         // If is first time on period
-                                        String periodString = new String("Pre-ceramico");
-                                        SpannableString content = new SpannableString(periodString);
-                                        content.setSpan(new UnderlineSpan(), 0, periodString.length(), 0);
-                                        periodDivider.setText(content);
-                                        historicalEventsContainer.addView(periodDivider);
+                                        chronologyStr = "Pre-ceramico";
                                     }
                                     chronology.put("PRECERAMICO", true);
                                 }
                                 break;
                         }
-                        // Divider
-                        View divider = new View(getApplicationContext());
-                        divider.setBackgroundColor(Color.GRAY);
-                        divider.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 4));
-                        historicalEventsContainer.addView(historicalEventContainer);
-                        historicalEventsContainer.addView(divider);
+                        HistoricalEventFragment heFragment = new HistoricalEventFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("chronology",chronologyStr);
+                        bundle.putString("day",historicalEvents.getJSONObject(i).getString("day"));
+                        bundle.putString("month",historicalEvents.getJSONObject(i).getString("month"));
+                        bundle.putString("year",historicalEvents.getJSONObject(i).getString("year"));
+                        bundle.putString("period",historicalEvents.getJSONObject(i).getString("period"));
+                        bundle.putString("historicalEventTitle",historicalEvents.getJSONObject(i).getString("title"));
+                        bundle.putString("historicalEventId",historicalEvents.getJSONObject(i).getString("id"));
+                        bundle.putString("userId", String.valueOf(userId));
+                        heFragment.setArguments(bundle);
+                        ft.add(R.id.historical_events_container, heFragment);
                     }
+                    ft.commit();
                 }else{
                     TextView emptyResults = new TextView(getApplicationContext());
                     emptyResults.setText(R.string.historical_events_empty_result);

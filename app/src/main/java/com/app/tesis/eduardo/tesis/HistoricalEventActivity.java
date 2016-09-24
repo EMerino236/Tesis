@@ -12,6 +12,7 @@ public class HistoricalEventActivity extends AppCompatActivity {
 
     private Bundle inBundle;
     private String historicalEventId;
+    Integer userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +20,7 @@ public class HistoricalEventActivity extends AppCompatActivity {
         getData();
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new HEFragmentPagerAdapter(getSupportFragmentManager(),HistoricalEventActivity.this,historicalEventId));
+        viewPager.setAdapter(new HEFragmentPagerAdapter(getSupportFragmentManager(),HistoricalEventActivity.this,historicalEventId,userId));
 
         // Give the TabLayout the ViewPager
         TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
@@ -30,5 +31,6 @@ public class HistoricalEventActivity extends AppCompatActivity {
         // Get profile
         inBundle = getIntent().getExtras();
         historicalEventId = (String) inBundle.get("historicalEventId");
+        userId = (Integer) inBundle.get("userId");
     }
 }

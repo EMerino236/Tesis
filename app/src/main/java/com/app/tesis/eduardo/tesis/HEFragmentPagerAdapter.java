@@ -14,11 +14,13 @@ public class HEFragmentPagerAdapter extends FragmentPagerAdapter {
     private String tabTitles[] = new String[] { "Info", "Fotos", "Audios", "Aportar"};
     private Context context;
     private String historicalEventId;
+    private Integer userId;
 
-    public HEFragmentPagerAdapter(FragmentManager fm, Context context,String historicalEventId) {
+    public HEFragmentPagerAdapter(FragmentManager fm, Context context,String historicalEventId,Integer userId) {
         super(fm);
         this.context = context;
         this.historicalEventId = historicalEventId;
+        this.userId = userId;
     }
 
     @Override
@@ -30,6 +32,7 @@ public class HEFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Bundle bundle = new Bundle();
         bundle.putString("historicalEventId",historicalEventId);
+        bundle.putInt("userId",userId);
         switch (position){
             case 0:
                 InfoFragment infoFragment = new InfoFragment();

@@ -30,6 +30,7 @@ public class PhotoFragment extends Fragment {
     private String historicalEventId;
     private LinearLayout photosContainer;
     private JSONArray photos;
+    Integer userId;
     // Webservices
     private AccessServiceAPI m_ServiceAccess;
 
@@ -37,6 +38,7 @@ public class PhotoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         historicalEventId = getArguments().getString("historicalEventId");
+        userId = getArguments().getInt("userId");
         m_ServiceAccess = new AccessServiceAPI();
     }
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +26,7 @@ public class InfoFragment extends Fragment {
     private String historicalEventId;
     TextView he_title_txt;
     TextView he_date_txt;
-    TextView he_review_txt;
+    WebView he_review_txt;
     String he_title;
     String he_date;
     String he_review;
@@ -33,6 +34,7 @@ public class InfoFragment extends Fragment {
     String month;
     String year;
     String period;
+    Integer userId;
     // Webservices
     private AccessServiceAPI m_ServiceAccess;
 
@@ -40,6 +42,7 @@ public class InfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         historicalEventId = getArguments().getString("historicalEventId");
+        userId = getArguments().getInt("userId");
         m_ServiceAccess = new AccessServiceAPI();
         //Toast.makeText(this.getContext(),historicalEventId, Toast.LENGTH_SHORT).show();
     }
@@ -55,7 +58,7 @@ public class InfoFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         he_title_txt = (TextView)getView().findViewById(R.id.he_title_txt);
         he_date_txt = (TextView)getView().findViewById(R.id.he_date_txt);
-        he_review_txt = (TextView)getView().findViewById(R.id.he_review_txt);
+        he_review_txt = (WebView)getView().findViewById(R.id.he_review_txt);
         new TaskHEInfo().execute(historicalEventId);
     }
 
@@ -107,11 +110,13 @@ public class InfoFragment extends Fragment {
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
             if(result == Constants.ENDPOINT_ERROR){
-                Toast.makeText(getContext(), R.string.service_connection_error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.service_connection_error, Toast.LENGTH_LONG).show();
             }else if(result == Constants.ENDPOINT_SUCCESS){
                 he_title_txt.setText(he_title);
                 he_date_txt.setText(he_date);
-                he_review_txt.setText(he_review);
+                //he_review_txt.setText(he_review);
+                String htmlText = "<html lang=\"es\"><body style=\"text-align:justify;background-color:#303030;color:#c1c1c1\"> %s </body></Html>";
+                he_review_txt.loadData(String.format(htmlText, he_review),"text/html; charset=utf-8", "utf-8");
             }
         }
     }
