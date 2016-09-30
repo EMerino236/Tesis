@@ -23,6 +23,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.app.tesis.eduardo.tesis.utils.CustomToast.centeredToast;
+
 /**
  * Created by Eduardo on 20/09/2016.
  */
@@ -180,6 +182,7 @@ public class TestimonyActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog.show();
+            add_button.setEnabled(false);
         }
 
         @Override
@@ -214,14 +217,19 @@ public class TestimonyActivity extends AppCompatActivity {
             if(result == Constants.ENDPOINT_ERROR){
                 try {
                     String message = jObjResult.getString("message");
-                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                    centeredToast(getApplicationContext(),message);
+                    //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), R.string.add_error, Toast.LENGTH_LONG).show();
+                    centeredToast(getApplicationContext(),getString(R.string.add_error));
+                    //Toast.makeText(getApplicationContext(), R.string.add_error, Toast.LENGTH_LONG).show();
                 }
             }else if(result == Constants.ENDPOINT_SUCCESS){
-                Toast.makeText(getApplicationContext(), R.string.add_success, Toast.LENGTH_LONG).show();
+                centeredToast(getApplicationContext(),getString(R.string.add_success));
+                activity.finish();
+                //Toast.makeText(getApplicationContext(), R.string.add_success, Toast.LENGTH_LONG).show();
             }
+            add_button.setEnabled(true);
         }
     }
 }

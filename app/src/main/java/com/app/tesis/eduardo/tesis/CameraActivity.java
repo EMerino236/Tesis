@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.app.tesis.eduardo.tesis.utils.CustomToast.centeredToast;
+
 
 /**
  * Created by Eduardo on 15/07/2016.
@@ -88,7 +90,8 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
         mLocationManager = (LocationManager) getSystemService( getApplicationContext().LOCATION_SERVICE );
         // Lets check if the GPS is enabled
         if(!mLocationManager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
-            Toast.makeText(getApplicationContext(), R.string.gps_not_enabled, Toast.LENGTH_LONG).show();
+            centeredToast(getApplicationContext(),getString(R.string.gps_not_enabled));
+            //Toast.makeText(getApplicationContext(), R.string.gps_not_enabled, Toast.LENGTH_LONG).show();
             finish();
         }
         // Set the profile data
@@ -134,7 +137,8 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
                 GooglePlayServicesUtil.getErrorDialog(resultCode, this, PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
-                Toast.makeText(getApplicationContext(), R.string.device_not_supported, Toast.LENGTH_LONG).show();
+                centeredToast(getApplicationContext(),getString(R.string.device_not_supported));
+                //Toast.makeText(getApplicationContext(), R.string.device_not_supported, Toast.LENGTH_LONG).show();
                 finish();
             }
             return false;
@@ -395,7 +399,8 @@ public class CameraActivity extends AppCompatActivity implements ConnectionCallb
             super.onPostExecute(result);
             progressDialog.dismiss();
             if(result == Constants.ENDPOINT_ERROR){
-                Toast.makeText(getApplicationContext(), R.string.service_connection_error, Toast.LENGTH_SHORT).show();
+                centeredToast(getApplicationContext(),getString(R.string.service_connection_error));
+                //Toast.makeText(getApplicationContext(), R.string.service_connection_error, Toast.LENGTH_SHORT).show();
             }
         }
     }

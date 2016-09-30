@@ -40,6 +40,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.app.tesis.eduardo.tesis.utils.CustomToast.centeredToast;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     double latitude;
@@ -173,7 +175,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setOnCircleClickListener(new GoogleMap.OnCircleClickListener() {
                 @Override
                 public void onCircleClick(Circle circle) {
-                    Toast.makeText(getApplicationContext(),R.string.augmented_reality_radius,Toast.LENGTH_LONG).show();
+                    centeredToast(getApplicationContext(),getString(R.string.augmented_reality_radius));
+                    //Toast.makeText(getApplicationContext(),R.string.augmented_reality_radius,Toast.LENGTH_LONG).show();
                 }
             });
             /*
@@ -301,7 +304,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
             if(result == Constants.ENDPOINT_ERROR){
-                Toast.makeText(getApplicationContext(), R.string.service_connection_error, Toast.LENGTH_SHORT).show();
+                centeredToast(getApplicationContext(),getString(R.string.service_connection_error));
+                //Toast.makeText(getApplicationContext(), R.string.service_connection_error, Toast.LENGTH_SHORT).show();
             }else if(result == Constants.ENDPOINT_SUCCESS) {
                 int length = points.length();
                 try {

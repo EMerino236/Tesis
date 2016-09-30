@@ -5,6 +5,7 @@
     <string name="login_title">Login</string>
     <string name="main_title">Menu</string>
     <string name="my_account_title">My Account</string>
+    <string name="my_contributions_title">My Contributions</string>
     <string name="camera_title">Augmented Reality</string>
     <string name="point_title">Point</string>
     <string name="testimony_title">Add New Historical Event</string>
@@ -24,6 +25,7 @@
     <string name="button_add">Add</string>
     <string name="button_play">Play</string>
     <string name="button_playing">Stop Playing</string>
+    <string name="button_my_contributions">Contributions</string>
     <!-- MAIN ACTIVITY LABELS -->
     <string name="default_user_fullname">Anonimous</string>
     <string name="button_map">Show Map</string>
@@ -58,6 +60,7 @@
     <string name="label_file">Choose a file</string>
     <string name="label_historical_events_divider">Historical Events</string>
     <string name="label_login_divider">Or</string>
+    <string name="label_preview">Preview</string>
     <string name="default_email">No email registered</string>
     <string name="switch_text_on">Post as anonymous</string>
     <string name="switch_text_off">Post as myself</string>
@@ -87,6 +90,7 @@
         <item>December</item>
     </string-array>
     <!-- MESSAGES -->
+    <string name="general_error">There was an error, try again later.</string>
     <string name="service_connection_error">There was an error while connecting to the servers, some features may not be available.</string>
     <string name="register_error">There was an error while registering the new user, try again later.</string>
     <string name="recover_error">There was an error while recovering the password, try again later.</string>
@@ -94,6 +98,7 @@
     <string name="register_success">Registration success, you were logged in.</string>
     <string name="recover_success">We have sent instructions to the e-mail entered.</string>
     <string name="add_success">The information was stored successfully and will pass review before they can be displayed.</string>
+    <string name="upload_success">Upload Success.</string>
     <string name="facebook_login_cancelled">Login cancelled.</string>
     <string name="facebook_login_exception">There was an error while connecting to Facebook.</string>
     <string name="menu_same_section">You are in the current selection.</string>
@@ -101,6 +106,7 @@
     <string name="historical_events_empty_result">No historical events registered yet.</string>
     <string name="photos_empty_result">No photos registered yet.</string>
     <string name="audios_empty_result">No audios registered yet.</string>
+    <string name="empty_result">No content registered yet.</string>
     <string name="gps_not_enabled">GPS not enabled.</string>
     <string name="device_not_supported">This device is not supported.</string>
     <string name="no_file_selected">No file selected.</string>
@@ -112,6 +118,8 @@
     <string name="no_month_selected">No month selected</string>
     <string name="number_required">Number required</string>
     <string name="day_out_of_range">Day out of range</string>
+    <string name="file_accepted_extentions">The valid extentions are: png, jpg, jpeg, mpeg and mpga</string>
+    <string name="file_size_cap">The file size must be at most 2 MB</string>
     <!-- TERMS AND CONDITIONS -->
     <string name="tc_p0">A continuación se describen los términos y condiciones, los cuales regularán el acceso y uso de la aplicación móvil.</string>
     <string name="tc_h1">Normas generales de uso de la aplicación móvil</string>

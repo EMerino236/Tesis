@@ -19,6 +19,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.app.tesis.eduardo.tesis.utils.CustomToast.centeredToast;
+
 /**
  * Created by Eduardo on 8/09/2016.
  */
@@ -110,7 +112,8 @@ public class InfoFragment extends Fragment {
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);
             if(result == Constants.ENDPOINT_ERROR){
-                Toast.makeText(getContext(), R.string.service_connection_error, Toast.LENGTH_LONG).show();
+                centeredToast(getContext(),getString(R.string.service_connection_error));
+                //Toast.makeText(getContext(), R.string.service_connection_error, Toast.LENGTH_LONG).show();
             }else if(result == Constants.ENDPOINT_SUCCESS){
                 he_title_txt.setText(he_title);
                 he_date_txt.setText(he_date);

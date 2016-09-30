@@ -8,6 +8,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import static com.app.tesis.eduardo.tesis.utils.CustomToast.centeredToast;
+
 /**
  * Created by Eduardo on 25/08/2016.
  */
@@ -46,7 +48,8 @@ public class TermsActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.logout_menu_terms:
-                Toast.makeText(TermsActivity.this,R.string.menu_same_section,Toast.LENGTH_SHORT).show();
+                centeredToast(TermsActivity.this,getString(R.string.menu_same_section));
+                //Toast.makeText(TermsActivity.this,R.string.menu_same_section,Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.logout_menu_privacy:
                 Intent privacy = new Intent(TermsActivity.this, PrivacyActivity.class);

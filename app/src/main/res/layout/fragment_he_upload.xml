@@ -50,12 +50,32 @@
                 android:layout_marginRight="25dp"
                 android:layout_marginTop="25dp" />
 
+            <ImageView
+                android:id="@+id/file_preview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/file_lbl"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:id="@+id/file_name_lbl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/file_preview"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="25dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"/>
+
             <ImageButton
                 android:id="@+id/file_chooser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:srcCompat="@android:drawable/ic_menu_search"
-                android:layout_below="@+id/file_lbl"
+                android:layout_below="@+id/file_name_lbl"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp" />
@@ -69,21 +89,14 @@
                 android:layout_marginRight="25dp"
                 android:textColor="@android:color/holo_red_light"/>
 
-            <ImageView
-                android:id="@+id/file_preview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/file_error_lbl"
-                android:layout_marginLeft="25dp"
-                android:layout_marginRight="25dp" />
-
             <Button
                 android:id="@+id/add_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/file_preview"
+                android:layout_below="@+id/file_error_lbl"
                 android:text="@string/button_add"
                 android:layout_marginTop="25dp"
+                android:layout_marginBottom="25dp"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
                 android:drawableStart="@android:drawable/ic_menu_upload"

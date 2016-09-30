@@ -40,6 +40,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.app.tesis.eduardo.tesis.utils.CustomToast.centeredToast;
+
 /**
  * Created by Eduardo on 12/07/2016.
  */
@@ -166,7 +168,8 @@ public class LoginActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.logout_menu_login:
-                Toast.makeText(LoginActivity.this,R.string.menu_same_section,Toast.LENGTH_SHORT).show();
+                centeredToast(LoginActivity.this,getString(R.string.menu_same_section));
+                //Toast.makeText(LoginActivity.this,R.string.menu_same_section,Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.logout_menu_register:
                 Intent register = new Intent(LoginActivity.this, RegisterActivity.class);
@@ -269,6 +272,7 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog.show();
+            login_button.setEnabled(false);
         }
 
         @Override
@@ -302,14 +306,17 @@ public class LoginActivity extends AppCompatActivity {
             if(result == Constants.ENDPOINT_ERROR){
                 try {
                     String message = jObjResult.getString("message");
-                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                    centeredToast(getApplicationContext(),message);
+                    //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), R.string.register_error, Toast.LENGTH_LONG).show();
+                    centeredToast(getApplicationContext(),getString(R.string.register_error));
+                    //Toast.makeText(getApplicationContext(), R.string.register_error, Toast.LENGTH_LONG).show();
                 }
             }else if(result == Constants.ENDPOINT_SUCCESS){
                 after_login();
             }
+            login_button.setEnabled(true);
         }
     }
 
@@ -390,12 +397,14 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                Toast.makeText(getApplicationContext(), R.string.facebook_login_cancelled, Toast.LENGTH_SHORT).show();
+                centeredToast(getApplicationContext(),getString(R.string.facebook_login_cancelled));
+                //Toast.makeText(getApplicationContext(), R.string.facebook_login_cancelled, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(FacebookException e) {
-                Toast.makeText(getApplicationContext(), R.string.facebook_login_exception, Toast.LENGTH_SHORT).show();
+                centeredToast(getApplicationContext(),getString(R.string.facebook_login_exception));
+                //Toast.makeText(getApplicationContext(), R.string.facebook_login_exception, Toast.LENGTH_SHORT).show();
             }
         };
         fbLoginButton.setReadPermissions(Arrays.asList("public_profile","email"));
@@ -413,6 +422,7 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog.show();
+            fbLoginButton.setEnabled(false);
         }
 
         @Override
@@ -446,14 +456,17 @@ public class LoginActivity extends AppCompatActivity {
             if(result == Constants.ENDPOINT_ERROR){
                 try {
                     String message = jObjResult.getString("message");
-                    Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                    centeredToast(getApplicationContext(),message);
+                    //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), R.string.register_error, Toast.LENGTH_LONG).show();
+                    centeredToast(getApplicationContext(),getString(R.string.register_error));
+                    //Toast.makeText(getApplicationContext(), R.string.register_error, Toast.LENGTH_LONG).show();
                 }
             }else if(result == Constants.ENDPOINT_SUCCESS){
                 after_fb_login();
             }
+            fbLoginButton.setEnabled(true);
         }
     }
 

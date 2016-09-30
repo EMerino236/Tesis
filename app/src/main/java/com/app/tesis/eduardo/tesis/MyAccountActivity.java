@@ -2,6 +2,7 @@ package com.app.tesis.eduardo.tesis;
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +28,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.app.tesis.eduardo.tesis.utils.CustomToast.centeredToast;
+
 /**
  * Created by Eduardo on 14/07/2016.
  */
@@ -39,6 +42,7 @@ public class MyAccountActivity extends AppCompatActivity {
     private ProfilePictureView profilePicture;
     private Switch buttonSwitch;
     private Button buttonSave;
+    private Button buttonContributions;
     private Boolean switchValue;
     Integer userId;
     String fbId;
@@ -73,6 +77,7 @@ public class MyAccountActivity extends AppCompatActivity {
         //fetchCitizenData();
         // Set save button
         setSaveButton();
+        setContributionsButton();
     }
 
     public void setProfileData(){
@@ -80,6 +85,7 @@ public class MyAccountActivity extends AppCompatActivity {
         profilePicture = (ProfilePictureView) findViewById(R.id.profile_picture);
         buttonSwitch = (Switch) findViewById(R.id.post_as_anonymous);
         buttonSave = (Button) findViewById(R.id.button_save);
+        buttonContributions = (Button) findViewById(R.id.button_contributions);
         email = (TextView) findViewById(R.id.email);
         // Get profile
         inBundle = getIntent().getExtras();
@@ -107,10 +113,12 @@ public class MyAccountActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
                 if(isChecked){
-                    Toast.makeText(getApplicationContext(),R.string.switch_text_on,Toast.LENGTH_SHORT).show();
+                    centeredToast(getApplicationContext(),getString(R.string.switch_text_on));
+                    //Toast.makeText(getApplicationContext(),R.string.switch_text_on,Toast.LENGTH_SHORT).show();
                     buttonSwitch.setText(R.string.label_yes);
                 }else{
-                    Toast.makeText(getApplicationContext(),R.string.switch_text_off,Toast.LENGTH_SHORT).show();
+                    centeredToast(getApplicationContext(),getString(R.string.switch_text_off));
+                    //Toast.makeText(getApplicationContext(),R.string.switch_text_off,Toast.LENGTH_SHORT).show();
                     buttonSwitch.setText(R.string.label_no);
                 }
             }
@@ -151,6 +159,16 @@ public class MyAccountActivity extends AppCompatActivity {
                 }
                 new TaskSaveMyAccount().execute(String.valueOf(userId),String.valueOf(buttonSwitch.isChecked()));
                 */
+            }
+        });
+    }
+    public void setContributionsButton(){
+        buttonContributions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent my_contributions = new Intent(MyAccountActivity.this, MyContributionsActivity.class);
+                my_contributions.putExtra("userId",userId);
+                startActivity(my_contributions);
             }
         });
     }
@@ -263,13 +281,16 @@ public class MyAccountActivity extends AppCompatActivity {
                     }
                     password_txt.setText(null);
                     repeat_password_txt.setText(null);
-                    Toast.makeText(getApplicationContext(), R.string.my_account_edit_success, Toast.LENGTH_SHORT).show();
+                    centeredToast(getApplicationContext(),getString(R.string.my_account_edit_success));
+                    //Toast.makeText(getApplicationContext(), R.string.my_account_edit_success, Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getApplicationContext(), R.string.service_connection_error, Toast.LENGTH_SHORT).show();
+                    centeredToast(getApplicationContext(),getString(R.string.service_connection_error));
+                    //Toast.makeText(getApplicationContext(), R.string.service_connection_error, Toast.LENGTH_SHORT).show();
                 }
             }else if(result == Constants.ENDPOINT_ERROR){
-                Toast.makeText(getApplicationContext(), R.string.service_connection_error, Toast.LENGTH_SHORT).show();
+                centeredToast(getApplicationContext(),getString(R.string.service_connection_error));
+                //Toast.makeText(getApplicationContext(), R.string.service_connection_error, Toast.LENGTH_SHORT).show();
             }
             buttonSave.setEnabled(true);
         }

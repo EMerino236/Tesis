@@ -22,6 +22,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.app.tesis.eduardo.tesis.utils.CustomToast.centeredToast;
+
 /**
  * Created by Eduardo on 1/09/2016.
  */
@@ -69,7 +71,8 @@ public class RecoverPassActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.logout_menu_recover_password:
-                Toast.makeText(RecoverPassActivity.this,R.string.menu_same_section,Toast.LENGTH_SHORT).show();
+                centeredToast(RecoverPassActivity.this,getString(R.string.menu_same_section));
+                //Toast.makeText(RecoverPassActivity.this,R.string.menu_same_section,Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.logout_menu_terms:
                 Intent terms = new Intent(RecoverPassActivity.this, TermsActivity.class);
@@ -119,6 +122,7 @@ public class RecoverPassActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            recover_button.setEnabled(false);
         }
 
         @Override
@@ -147,6 +151,7 @@ public class RecoverPassActivity extends AppCompatActivity {
             }else if(result == Constants.ENDPOINT_SUCCESS){
                 Toast.makeText(getApplicationContext(), R.string.recover_success, Toast.LENGTH_LONG).show();
             }
+            recover_button.setEnabled(true);
         }
     }
 }

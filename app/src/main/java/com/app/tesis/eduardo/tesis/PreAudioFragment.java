@@ -2,23 +2,21 @@ package com.app.tesis.eduardo.tesis;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.session.MediaController;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.tesis.eduardo.tesis.services.AccessServiceAPI;
 import com.app.tesis.eduardo.tesis.utils.Constants;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,41 +29,40 @@ import java.util.Map;
 import static com.app.tesis.eduardo.tesis.utils.CustomToast.centeredToast;
 
 /**
- * Created by Eduardo on 9/09/2016.
+ * Created by Eduardo on 27/09/2016.
  */
-public class AudioFragment extends Fragment {
-    private String historicalEventId;
-    private LinearLayout audiosContainer;
-    private JSONArray audios;
+
+public class PreAudioFragment extends Fragment {
+
+    private Integer userId;
+    LinearLayout preaudiosContainer;
     int audiosLength;
     MediaPlayer mPlayerList[];
     Button playButtonList[];
-    Integer userId;
     // Webservices
     private AccessServiceAPI m_ServiceAccess;
-
+    JSONArray preaudios;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        historicalEventId = getArguments().getString("historicalEventId");
         userId = getArguments().getInt("userId");
         m_ServiceAccess = new AccessServiceAPI();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_he_audio, container, false);
+        View view = inflater.inflate(R.layout.fragment_mc_preaudio, container, false);
         return view;
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
-        audiosContainer = (LinearLayout)getView().findViewById(R.id.audios_container);
-        new TaskHEAudios().execute(historicalEventId);
+        preaudiosContainer = (LinearLayout) getView().findViewById(R.id.preaudios_container);
+        new TaskMCPreaudios().execute(String.valueOf(userId));
     }
 
-    public class TaskHEAudios extends AsyncTask<String, Void, Integer> {
+    public class TaskMCPreaudios extends AsyncTask<String, Void, Integer> {
         JSONObject jObjResult;
         @Override
         protected void onPreExecute() {
@@ -78,11 +75,11 @@ public class AudioFragment extends Fragment {
             Map<String, String> param = new HashMap<>();
 
             try {
-                jObjResult = m_ServiceAccess.convertJSONString2Obj(m_ServiceAccess.getJSONStringFromUrl_GET(Constants.ENDPOINT_URL+Constants.HISTORICAL_EVENTS+params[0]+"/audios"));
+                jObjResult = m_ServiceAccess.convertJSONString2Obj(m_ServiceAccess.getJSONStringFromUrl_GET(Constants.ENDPOINT_URL+Constants.CITIZENS+params[0]+"/pre-audios"));
                 if(jObjResult.getBoolean("error")){
                     return Constants.ENDPOINT_ERROR;
                 }
-                audios = jObjResult.getJSONArray("audios");
+                preaudios = jObjResult.getJSONArray("pre_audios");
                 return Constants.ENDPOINT_SUCCESS;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -98,17 +95,17 @@ public class AudioFragment extends Fragment {
                 //Toast.makeText(getContext(), R.string.service_connection_error, Toast.LENGTH_SHORT).show();
             }else if(result == Constants.ENDPOINT_SUCCESS){
                 try {
-                    audiosLength = audios.length();
+                    audiosLength = preaudios.length();
                     mPlayerList = new MediaPlayer[audiosLength];
                     playButtonList = new Button[audiosLength];
                     if(audiosLength>0) {
                         for (int i = 0; i < audiosLength; i++) {
                             final int finalI = i;
                             TextView title = new TextView(getContext());
-                            title.setText(audios.getJSONObject(i).getString("title"));
+                            title.setText(preaudios.getJSONObject(i).getString("title"));
                             mPlayerList[i] = new MediaPlayer();
                             mPlayerList[i].setAudioStreamType(AudioManager.STREAM_MUSIC);
-                            mPlayerList[i].setDataSource(Constants.HISTORICAL_EVENTS_DIRECTORY + historicalEventId + "/audios/" + audios.getJSONObject(i).getString("file_name"));
+                            mPlayerList[i].setDataSource(Constants.HISTORICAL_EVENTS_DIRECTORY + preaudios.getJSONObject(i).getString("historical_event_id") + "/preAudios/" + preaudios.getJSONObject(i).getString("file_name"));
                             mPlayerList[i].prepare();
                             playButtonList[i] = new Button(getContext());
                             //Button playButton = new Button(getContext());
@@ -140,27 +137,20 @@ public class AudioFragment extends Fragment {
                                     playButtonList[finalI].setText(R.string.button_play);
                                 }
                             });
-                            audiosContainer.addView(title);
-                            audiosContainer.addView(playButtonList[i]);
+                            preaudiosContainer.addView(title);
+                            preaudiosContainer.addView(playButtonList[i]);
                         }
                     }else{
                         TextView emptyResults = new TextView(getContext());
-                        emptyResults.setText(R.string.audios_empty_result);
+                        emptyResults.setText(R.string.empty_result);
                         emptyResults.setGravity(Gravity.CENTER);
-                        audiosContainer.addView(emptyResults);
+                        preaudiosContainer.addView(emptyResults);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-        }
-    }
-    public void pauseAll(){
-        for(int j=0;j<audiosLength;j++){
-            if(mPlayerList[j]!=null && mPlayerList[j].isPlaying()){
-                mPlayerList[j].pause();
             }
         }
     }
