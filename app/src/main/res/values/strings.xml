@@ -112,6 +112,7 @@
     <string name="no_file_selected">No file selected.</string>
     <!-- ERRORS -->
     <string name="required_field">This field is required</string>
+    <string name="min_8_field">This field should be at least 8 digits</string>
     <string name="repeat_password_mismatch">Password mismatch</string>
     <string name="repeat_email_mismatch">Email mismatch</string>
     <string name="email_patterns_mismatch">This is not a valid e-mail</string>

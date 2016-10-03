@@ -113,6 +113,7 @@
     <string name="no_file_selected">No se seleccionó ningún archivo.</string>
     <!-- ERRORS -->
     <string name="required_field">Este campo es requerido</string>
+    <string name="min_8_field">Este campo debe tener por lo menos 8 dígitos</string>
     <string name="repeat_password_mismatch">Las contraseñas no coinciden</string>
     <string name="repeat_email_mismatch">Los email no coinciden</string>
     <string name="email_patterns_mismatch">Ingrese un e-mail válido</string>

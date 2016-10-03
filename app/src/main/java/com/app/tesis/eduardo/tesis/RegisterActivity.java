@@ -157,8 +157,8 @@ public class RegisterActivity extends AppCompatActivity {
             email_error_lbl.setText(R.string.email_patterns_mismatch);
             is_correct = false;
         }
-        if(password_txt.getText().length() == 0){
-            password_error_lbl.setText(R.string.required_field);
+        if(password_txt.getText().length() < 8){
+            password_error_lbl.setText(R.string.min_8_field);
             is_correct = false;
         }
         if(!password_txt.getText().toString().equals(repeat_password_txt.getText().toString())){
